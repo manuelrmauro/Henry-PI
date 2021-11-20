@@ -89,6 +89,7 @@ router.get('/:id', async (req,res) => {
 	}
 })
 
+
 function adaptQuery(recipe) {
 	recipe.diets = recipe.diets.map(diet => diet.name)
 	recipe.analyzedInstructions = [{steps : recipe.steps.map(step => ({number :step.number, step : step.step}))}] 
