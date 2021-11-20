@@ -33,5 +33,8 @@ module.exports = (sequelize) => {
 				isUrl: true,
 			},
 		},
+	},
+	{
+		timestamps: true
 	});
 };
