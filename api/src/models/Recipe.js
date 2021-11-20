@@ -7,25 +7,31 @@ module.exports = (sequelize) => {
 		title: {
 			type: DataTypes.STRING(50),
 			allowNull: false,
-      validate: {
-        is: /^[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]*$/i,
-      }
+			validate: {
+				is: /^[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]*$/i,
+			},
 		},
 		summary: {
 			type: DataTypes.TEXT,
 			allowNull: false,
+			validate: {
+				not: /^[0-9]+$/i,
+			},
 		},
 		spoonacularScore: {
-			type: DataTypes.DECIMAL(4,1),
+			type: DataTypes.DECIMAL(4, 1),
 		},
 		healthScore: {
-			type: DataTypes.DECIMAL(4,1),
+			type: DataTypes.DECIMAL(4, 1),
 		},
 		readyInMinutes: {
 			type: DataTypes.INTEGER,
 		},
 		image: {
 			type: DataTypes.STRING,
+			validate: {
+				isUrl: true,
+			},
 		},
 	});
 };
