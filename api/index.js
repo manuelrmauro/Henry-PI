@@ -37,12 +37,6 @@ conn.sync({ force: true }).then(() => {
 		const dietVegetarian = Diet.create({
 			name: 'vegetarian',
 		});
-		const dietOvo = Diet.create({
-			name: 'ovo',
-		});
-		const dietLacto = Diet.create({
-			name: 'lacto',
-		});
 		const dietPrimal = Diet.create({
 			name: 'primal',
 		});
@@ -61,8 +55,6 @@ conn.sync({ force: true }).then(() => {
 			dietDairyFree,
 			dietPaleolithic,
 			dietVegetarian,
-			dietOvo,
-			dietLacto,
 			dietPrimal,
 			dietVegan,
 			dietPescatarian,

@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Nav() {
+function Welcome() {
   return (
     <div>
-      NAV
+      WELCOME
     </div>
   )
 }
 
-export default Nav
+export default Welcome
