@@ -28,7 +28,27 @@ router.get('/', async function (req, res) {
 		dbRecipes.forEach((recipe) => {
 			adaptQuery(recipe);
 		});
-		return res.json(dbRecipes)
+		// BUSQUEDA POR NAME
+		if (req.query.name) {
+			dbRecipes = dbRecipes.filter((recipe) =>
+				recipe.title.toLowerCase().includes(req.query.name.toLowerCase())
+			);
+			if (!dbRecipes.length) {
+				return res.json([]);
+			}
+		}
+		// ORDENAR ALFABETICAMENTE O POR SCORE
+		if (req.query.order) {
+			if (req.query.order === 'alpha')
+				dbRecipes = sort(dbRecipes, 'title', 'asc');
+			if (req.query.order === 'alphaDesc')
+				dbRecipes = sort(dbRecipes, 'title', 'desc');
+			if (req.query.order === 'score')
+				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'asc');
+			if (req.query.order === 'scoreDesc')
+				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'desc');
+		}
+		return res.json(dbRecipes);
 		// EXTERNAL API
 		const eaRecipes = await axios
 			.get(
@@ -44,15 +64,18 @@ router.get('/', async function (req, res) {
 				recipe.title.toLowerCase().includes(req.query.name.toLowerCase())
 			);
 			if (!recipes.length) {
-				return res.status(404).json({ error: 'No match found' });
+				return res.json([]);
 			}
 		}
 		// ORDENAR ALFABETICAMENTE O POR SCORE
 		if (req.query.order) {
-			if (req.query.order === 'alpha') recipes = sort(recipes,'title','asc')
-			if (req.query.order === 'alphaDesc') recipes = sort(recipes,'title','desc')
-			if (req.query.order === 'score') recipes = sort(recipes,'spoonacularScore','asc')
-			if (req.query.order === 'scoreDesc') recipes = sort(recipes,'spoonacularScore','desc')
+			if (req.query.order === 'alpha') recipes = sort(recipes, 'title', 'asc');
+			if (req.query.order === 'alphaDesc')
+				recipes = sort(recipes, 'title', 'desc');
+			if (req.query.order === 'score')
+				recipes = sort(recipes, 'spoonacularScore', 'asc');
+			if (req.query.order === 'scoreDesc')
+				recipes = sort(recipes, 'spoonacularScore', 'desc');
 		}
 
 		res.json(recipes);
@@ -81,8 +104,11 @@ router.get('/:id', async (req, res) => {
 					[Diet, 'id', 'ASC'],
 					['id', 'ASC'],
 				],
-			}).then((recipe) => recipe.get({ plain: true }));
-			recipe = adaptQuery(recipe);
+			}).then((recipe) => recipe?.get({ plain: true }));
+			console.log(recipe);
+			if (recipe) recipe = adaptQuery(recipe);
+			else return res.json({});
+
 			res.json(recipe);
 		} else {
 			// EXTERNAL API
@@ -93,14 +119,14 @@ router.get('/:id', async (req, res) => {
 				.then((res) => res.data);
 			filteredRecipe = {
 				id,
-				title : recipe.title,
-				summary : recipe.summary,
-				spoonacularScore : recipe.spoonacularScore,
-				healthScore : recipe.healthScore,
-				readyInMinutes : recipe.readyInMinutes,
-				image : recipe.image,
-				diets : recipe.diets,
-				analyzedInstructions : recipe.analyzedInstructions,
+				title: recipe.title,
+				summary: recipe.summary,
+				spoonacularScore: recipe.spoonacularScore,
+				healthScore: recipe.healthScore,
+				readyInMinutes: recipe.readyInMinutes,
+				image: recipe.image,
+				diets: recipe.diets,
+				analyzedInstructions: recipe.analyzedInstructions,
 			};
 			recipe = filteredRecipe;
 			res.json(recipe);

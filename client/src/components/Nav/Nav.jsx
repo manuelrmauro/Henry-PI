@@ -1,9 +1,11 @@
 import React from 'react'
+import SearchBar from '../SearchBar/SearchBar'
 
 function Nav() {
   return (
     <div>
-      NAV
+      APP
+      <SearchBar/>
     </div>
   )
 }

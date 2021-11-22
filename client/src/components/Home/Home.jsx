@@ -1,57 +1,32 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getRecipes, getPage } from '../../redux/actions';
+import { getRecipes, _LOADING } from '../../redux/actions';
+import CardContainer from '../CardContainer/CardContainer';
+import PageChanger from '../PageChanger/PageChanger';
 
-function Home({ recipes, allRecipes, page, pages, getRecipes, getPage }) {
+function Home({ recipes, getRecipes }) {
 	useEffect(() => {
 		getRecipes();
 	}, []);
 
-	function handlePrevPage(e) {
-		e.preventDefault();
-		getPage(allRecipes, --page);
-	}
-
-	function handleNextPage(e) {
-		e.preventDefault();
-		getPage(allRecipes, ++page);
-	}
-
 	return (
 		<div>
 			{recipes ? (
-				recipes.map((recipe) => {
-					return (
-						<p>
-							{recipe.title} {recipe.spoonacularScore} {recipe.id}
-						</p>
-					);
-				})
-			) : 
-				<p>loading...</p>
-			}
-			{page > 1 ? (
-				<button onClick={(e) => handlePrevPage(e)}>{'<'}</button>
-			) : (
-				false
-			)}
-			{page}/{pages}
-			{page < pages ? (
-				<button onClick={(e) => handleNextPage(e)}>{'>'}</button>
-			) : (
-				false
-			)}
+				recipes.length ? (
+					<div>
+						<CardContainer />
+						<PageChanger />
+					</div>
+				) : 'NO SE ENCONTRARON RESULTADOS'
+			) : 'LOADING...'}
 		</div>
 	);
 }
 
 function mapStateToProp(state) {
 	return {
-		allRecipes: state.recipes,
 		recipes: state.paginatedRecipes,
-		page: state.actualPage,
-		pages: state.pages,
 	};
 }
 
-export default connect(mapStateToProp, { getRecipes, getPage })(Home);
+export default connect(mapStateToProp, { getRecipes })(Home);
