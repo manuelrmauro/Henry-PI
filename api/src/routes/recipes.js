@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
 		dbRecipes.forEach((recipe) => {
 			adaptQuery(recipe);
 		});
-
+		return res.json(dbRecipes)
 		// EXTERNAL API
 		const eaRecipes = await axios
 			.get(

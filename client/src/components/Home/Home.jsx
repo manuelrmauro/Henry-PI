@@ -1,27 +1,57 @@
-import React, {useEffect} from 'react'
-import {connect} from 'react-redux'
-import{getRecipes} from '../../redux/actions'
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getRecipes, getPage } from '../../redux/actions';
 
-function Home({recipes, getRecipes }) {
+function Home({ recipes, allRecipes, page, pages, getRecipes, getPage }) {
+	useEffect(() => {
+		getRecipes();
+	}, []);
 
-  useEffect(() => {
-    getRecipes('','scoreDesc',['vegetarian', 'primal', 'gluten free', 'vegan'])
-  },[])
+	function handlePrevPage(e) {
+		e.preventDefault();
+		getPage(allRecipes, --page);
+	}
 
-  return (
-    <div>
-      HOME 
-    {recipes.map(recipe => {
-      return <p>{recipe.title} {recipe.spoonacularScore} {recipe.diets}</p>
-    })}
-    </div>
-  )
+	function handleNextPage(e) {
+		e.preventDefault();
+		getPage(allRecipes, ++page);
+	}
+
+	return (
+		<div>
+			{recipes ? (
+				recipes.map((recipe) => {
+					return (
+						<p>
+							{recipe.title} {recipe.spoonacularScore} {recipe.id}
+						</p>
+					);
+				})
+			) : 
+				<p>loading...</p>
+			}
+			{page > 1 ? (
+				<button onClick={(e) => handlePrevPage(e)}>{'<'}</button>
+			) : (
+				false
+			)}
+			{page}/{pages}
+			{page < pages ? (
+				<button onClick={(e) => handleNextPage(e)}>{'>'}</button>
+			) : (
+				false
+			)}
+		</div>
+	);
 }
 
 function mapStateToProp(state) {
 	return {
-		recipes : state.recipes
+		allRecipes: state.recipes,
+		recipes: state.paginatedRecipes,
+		page: state.actualPage,
+		pages: state.pages,
 	};
 }
 
-export default connect(mapStateToProp, {getRecipes})(Home);
+export default connect(mapStateToProp, { getRecipes, getPage })(Home);
