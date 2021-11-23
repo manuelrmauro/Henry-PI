@@ -4,6 +4,7 @@ import {
 	GET_RECIPE_DETAILS,
 	_LOADING_PAGES,
 	GET_DIETS,
+	ADD_RECIPE,
 } from './actions';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
 	pages: null,
 	diets: [],
 	search: '',
+	postId: null,
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -48,6 +50,11 @@ function rootReducer(state = initialState, { type, payload }) {
 			return {
 				...state,
 				diets: payload,
+			};
+		case ADD_RECIPE:
+			return {
+				...state,
+				postId: payload,
 			};
 		default:
 			return state;

@@ -2,8 +2,8 @@ export const GET_RECIPES = 'GET_RECIPES';
 export const GET_RECIPE_DETAILS = 'GET_RECIPE_DETAILS';
 export const GET_PAGE = 'GET_PAGE';
 export const _LOADING_PAGES = '_LOADING_PAGES';
-export const GET_DIETS = 'GET_DIETS'
-export const REFRESH = 'REFRESH'
+export const GET_DIETS = 'GET_DIETS';
+export const ADD_RECIPE = 'ADD_RECIPE';
 
 function _filterByDiets(recipe, diets) {
 	let count = 0;
@@ -40,7 +40,7 @@ export const getRecipes = function (name = '', order = '', diets = []) {
 				const { content, pages } = _paginate(data);
 				dispatch({
 					type: GET_RECIPES,
-					payload: { data, content, pages, actualPage: 1 ,search: name},
+					payload: { data, content, pages, actualPage: 1, search: name },
 				});
 			})
 			.catch((err) => console.log(err));
@@ -64,24 +64,38 @@ export const getPage = function (data, page) {
 
 export const getRecipeDetails = function (id) {
 	return function (dispatch) {
-		dispatch({type:GET_RECIPE_DETAILS, payload: null})
+		dispatch({ type: GET_RECIPE_DETAILS, payload: null });
 		fetch(`http://localhost:3001/recipes/${id}`)
-		.then(res => res.json())
-		.then(res => {
-			dispatch({type:GET_RECIPE_DETAILS, payload: res})
-		})
-		.catch((err) => console.log(err));
-	}
+			.then((res) => res.json())
+			.then((res) => {
+				dispatch({ type: GET_RECIPE_DETAILS, payload: res });
+			})
+			.catch((err) => console.log(err));
+	};
 };
 
 export const getDiets = function () {
 	return function (dispatch) {
 		fetch('http://localhost:3001/types')
-		.then(res => res.json())
-		.then(res => {
-			dispatch({type: GET_DIETS, payload: res})
-		})
+			.then((res) => res.json())
+			.then((res) => {
+				dispatch({ type: GET_DIETS, payload: res });
+			});
+	};
+};
+
+export const addRecipe = function (recipe) {
+	return function (dispatch) {
+	fetch('http://localhost:3001/recipe',{
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(recipe)
+	})
+	.then(res => res.json())
+	.then(res => {
+		dispatch({type:ADD_RECIPE, payload: res.id})
+		dispatch({type:ADD_RECIPE, payload: null})
+	})
 	}
 }
-
 
