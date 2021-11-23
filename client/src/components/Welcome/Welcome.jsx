@@ -1,9 +1,10 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 function Welcome() {
   return (
     <div>
-      WELCOME
+     <Link to='/app'>WELCOME</Link> 
     </div>
   )
 }

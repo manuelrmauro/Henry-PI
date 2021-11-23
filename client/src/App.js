@@ -14,8 +14,8 @@ function App() {
       <Route exact path='/' component={Welcome}/>
       <Route path='/app' component={Nav}/>
       <Route exact path='/app' component={Home}/>
-			<Route path='/app/add' component={AddForm}/>
-			<Route path='/app/:id' render={match => <CardDetails match={match.match}/>}/>
+			<Route exact path='/app/add' component={AddForm}/>
+			<Route exact path='/app/recipe/:id' render={match => <CardDetails match={match.match}/>}/>
 		</div>
 	);
 }

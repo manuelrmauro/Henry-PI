@@ -19,6 +19,7 @@ function Nav({getRecipes}) {
   return (
     <div>
       <Link to='/app' onClick={(e) => onClick(e)}>APP</Link>
+      <Link to='/app/add'>ADD NEW</Link>
       {refresh?<SearchBar/>:false}
       
     </div>
