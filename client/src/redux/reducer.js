@@ -1,11 +1,12 @@
-import { GET_PAGE, GET_RECIPES, GET_RECIPE_DETAILS, _LOADING } from './actions';
+import { GET_PAGE, GET_RECIPES, GET_RECIPE_DETAILS, _LOADING_PAGES } from './actions';
 
 const initialState = {
 	recipes: [],
-	recipe: {},
+	recipe: null,
 	paginatedRecipes: null,
 	actualPage: null,
 	pages: null,
+	search : ''
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -17,6 +18,7 @@ function rootReducer(state = initialState, { type, payload }) {
 				paginatedRecipes: payload.content,
 				pages: payload.pages,
 				actualPage: payload.actualPage,
+				search: payload.search
 			};
 		case GET_PAGE:
 			return {
@@ -30,7 +32,7 @@ function rootReducer(state = initialState, { type, payload }) {
 				...state,
 				recipe: payload
 			}
-		case _LOADING:
+		case _LOADING_PAGES:
 			return {
 				...state, paginatedRecipes: null
 			}

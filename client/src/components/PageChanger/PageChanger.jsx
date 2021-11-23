@@ -15,14 +15,20 @@ function PageChanger({ page, pages, allRecipes, getPage }) {
 
 	return (
 		<div>
-			{page > 1 ? (
-				<button onClick={(e) => handlePrevPage(e)}>{'<'}</button>
-			) : (
-				false
-			)}
-			{page}/{pages}
-			{page < pages ? (
-				<button onClick={(e) => handleNextPage(e)}>{'>'}</button>
+			{pages > 1 ? (
+				<div>
+					{page > 1 ? (
+						<button onClick={(e) => handlePrevPage(e)}>{'<'}</button>
+					) : (
+						false
+					)}
+					{page}/{pages}
+					{page < pages ? (
+						<button onClick={(e) => handleNextPage(e)}>{'>'}</button>
+					) : (
+						false
+					)}
+				</div>
 			) : (
 				false
 			)}
@@ -34,7 +40,7 @@ function mapStateToProps(state) {
 	return {
 		page: state.actualPage,
 		pages: state.pages,
-    allRecipes : state.recipes
+		allRecipes: state.recipes,
 	};
 }
 

@@ -7,12 +7,22 @@ function CardDetails({ match, recipe, getRecipeDetails }) {
 
 	useEffect(() => {
 		getRecipeDetails(id);
-	});
+	}, []);
 
 	return (
 		<div>
-			{recipe.id}
-			{recipe.title}
+			{recipe ? (
+				Object.keys(recipe).length ? (
+					<div>
+						{recipe.id}
+						{recipe.title}
+					</div>
+				) : (
+					'ERROR 404 not found'
+				)
+			) : (
+				'LOADING...'
+			)}
 		</div>
 	);
 }

@@ -1,7 +1,7 @@
 export const GET_RECIPES = 'GET_RECIPES';
 export const GET_RECIPE_DETAILS = 'GET_RECIPE_DETAILS';
 export const GET_PAGE = 'GET_PAGE';
-export const _LOADING = '_LOADING';
+export const _LOADING_PAGES = '_LOADING_PAGES';
 
 function _filterByDiets(recipe, diets) {
 	let count = 0;
@@ -28,7 +28,7 @@ function _paginate(data, page = 1) {
 
 export const getRecipes = function (name = '', order = '', diets = []) {
 	return function (dispatch) {
-		dispatch({ type: _LOADING });
+		dispatch({ type: _LOADING_PAGES });
 		fetch(`http://localhost:3001/recipes?name=${name}&order=${order}`)
 			.then((data) => data.json())
 			.then((data) => {
@@ -38,7 +38,7 @@ export const getRecipes = function (name = '', order = '', diets = []) {
 				const { content, pages } = _paginate(data);
 				dispatch({
 					type: GET_RECIPES,
-					payload: { data, content, pages, actualPage: 1 },
+					payload: { data, content, pages, actualPage: 1 ,search: name},
 				});
 			})
 			.catch((err) => console.log(err));
@@ -47,7 +47,7 @@ export const getRecipes = function (name = '', order = '', diets = []) {
 
 export const getPage = function (data, page) {
 	return function (dispatch) {
-		dispatch({ type: _LOADING });
+		dispatch({ type: _LOADING_PAGES });
 		const { content, pages } = _paginate(data, page);
 		dispatch({
 			type: GET_PAGE,
@@ -62,6 +62,7 @@ export const getPage = function (data, page) {
 
 export const getRecipeDetails = function (id) {
 	return function (dispatch) {
+		dispatch({type:GET_RECIPE_DETAILS, payload: null})
 		fetch(`http://localhost:3001/recipes/${id}`)
 		.then(res => res.json())
 		.then(res => {

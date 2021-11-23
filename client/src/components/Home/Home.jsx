@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getRecipes, _LOADING } from '../../redux/actions';
+import { getRecipes } from '../../redux/actions';
 import CardContainer from '../CardContainer/CardContainer';
 import PageChanger from '../PageChanger/PageChanger';
 
-function Home({ recipes, getRecipes }) {
+function Home({ recipes, search, getRecipes }) {
 	useEffect(() => {
-		getRecipes();
+		if (!recipes) {
+			getRecipes();
+		}
 	}, []);
 
 	return (
 		<div>
+			{search.length?<p>Resultado de busqueda de: '{search}'</p>:null}
 			{recipes ? (
 				recipes.length ? (
 					<div>
@@ -26,6 +29,7 @@ function Home({ recipes, getRecipes }) {
 function mapStateToProp(state) {
 	return {
 		recipes: state.paginatedRecipes,
+		search: state.search
 	};
 }
 
