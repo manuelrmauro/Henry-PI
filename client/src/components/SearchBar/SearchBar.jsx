@@ -1,32 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getRecipes } from '../../redux/actions';
+import { getRecipes, getDiets } from '../../redux/actions';
 import { useHistory } from 'react-router-dom';
 
-function SearchBar({ getRecipes }) {
+function SearchBar({ diets, getRecipes, getDiets }) {
+	useEffect(() => {
+		getDiets();
+	}, []);
+
 	const history = useHistory();
 
 	const [input, setInput] = useState({
 		name: '',
 		order: '',
-    disabled: true
+    diets: [],
+		disabled: true,
 	});
 
 	function handleOnSubmit(e) {
 		e.preventDefault();
 		history.push('/app');
-		getRecipes(input.name, input.order);
-		setInput({ ...input, name: '', order: '' , disabled: true});
-
+    if (input.diets.length) {
+      getRecipes(input.name, input.order, input.diets);
+    } else {
+      getRecipes(input.name, input.order);
+    }
+	//	setInput({ ...input, name: '', order: '' });
 	}
 
 	function handleOrder(e) {
 		if (e.target.name === 'orderBy') {
-			setInput({...input, disabled: !input.disabled});
+			setInput({ ...input, disabled: !input.disabled });
 		} else {
-      setInput({ ...input, order: e.target.value });
+			setInput({ ...input, order: e.target.value });
 		}
 	}
+
+  function handleFilter(e) {
+    const diets = [...input.diets]
+    const diet = e.target.name
+    
+    if (!diets.includes(diet)) {
+      diets.push(diet)
+      setInput({...input, diets})
+    } else {
+      const index = diets.indexOf(diet)
+      diets.splice(index, 1)
+      setInput({...input, diets})
+    }
+  }
 
 	function handleInputChange(e) {
 		e.preventDefault();
@@ -46,19 +68,38 @@ function SearchBar({ getRecipes }) {
 					type="checkbox"
 					onChange={(e) => handleOrder(e)}
 					name="orderBy"
-          checked={!input.disabled}
+					checked={!input.disabled}
 				/>
 				<label>ORDER BY</label>
-				<select name="orders" disabled={input.disabled} onChange={(e) => handleOrder(e)} value={input.order}>
-					<option value="" ></option>
-					<option value="alpha" >A-Z</option>
-					<option value="alphaDesc" >Z-A</option>
-					<option value="scoreDesc" >MAX</option>
-					<option value="score" >MIN</option>
+				<select
+					name="orders"
+					disabled={input.disabled}
+					onChange={(e) => handleOrder(e)}
+					value={input.order}
+				>
+					<option value=""></option>
+					<option value="alpha">A-Z</option>
+					<option value="alphaDesc">Z-A</option>
+					<option value="scoreDesc">MAX</option>
+					<option value="score">MIN</option>
 				</select>
+			</div>
+			<div>
+        {diets?diets.map(diet => <span>
+          <input key={diet.id} type='checkbox' name={diet.name} onClick={e => handleFilter(e)} />
+          <label>{diet.name}</label>
+        </span>):null}
+				
+
 			</div>
 		</form>
 	);
 }
 
-export default connect(null, { getRecipes })(SearchBar);
+function mapStateToProps(state) {
+	return {
+		diets: state.diets,
+	};
+}
+
+export default connect(mapStateToProps, { getRecipes, getDiets })(SearchBar);

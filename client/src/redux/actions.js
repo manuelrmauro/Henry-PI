@@ -2,6 +2,8 @@ export const GET_RECIPES = 'GET_RECIPES';
 export const GET_RECIPE_DETAILS = 'GET_RECIPE_DETAILS';
 export const GET_PAGE = 'GET_PAGE';
 export const _LOADING_PAGES = '_LOADING_PAGES';
+export const GET_DIETS = 'GET_DIETS'
+export const REFRESH = 'REFRESH'
 
 function _filterByDiets(recipe, diets) {
 	let count = 0;
@@ -71,3 +73,15 @@ export const getRecipeDetails = function (id) {
 		.catch((err) => console.log(err));
 	}
 };
+
+export const getDiets = function () {
+	return function (dispatch) {
+		fetch('http://localhost:3001/types')
+		.then(res => res.json())
+		.then(res => {
+			dispatch({type: GET_DIETS, payload: res})
+		})
+	}
+}
+
+

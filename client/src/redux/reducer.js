@@ -1,4 +1,10 @@
-import { GET_PAGE, GET_RECIPES, GET_RECIPE_DETAILS, _LOADING_PAGES } from './actions';
+import {
+	GET_PAGE,
+	GET_RECIPES,
+	GET_RECIPE_DETAILS,
+	_LOADING_PAGES,
+	GET_DIETS,
+} from './actions';
 
 const initialState = {
 	recipes: [],
@@ -6,7 +12,8 @@ const initialState = {
 	paginatedRecipes: null,
 	actualPage: null,
 	pages: null,
-	search : ''
+	diets: [],
+	search: '',
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -18,7 +25,7 @@ function rootReducer(state = initialState, { type, payload }) {
 				paginatedRecipes: payload.content,
 				pages: payload.pages,
 				actualPage: payload.actualPage,
-				search: payload.search
+				search: payload.search,
 			};
 		case GET_PAGE:
 			return {
@@ -30,12 +37,18 @@ function rootReducer(state = initialState, { type, payload }) {
 		case GET_RECIPE_DETAILS:
 			return {
 				...state,
-				recipe: payload
-			}
+				recipe: payload,
+			};
 		case _LOADING_PAGES:
 			return {
-				...state, paginatedRecipes: null
-			}
+				...state,
+				paginatedRecipes: null,
+			};
+		case GET_DIETS:
+			return {
+				...state,
+				diets: payload,
+			};
 		default:
 			return state;
 	}
