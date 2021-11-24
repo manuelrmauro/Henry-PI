@@ -51,7 +51,7 @@
 
 .dietBoxes {
   display: grid;
-  grid-template-columns: repeat(4, 95px);
+  grid-template-columns: repeat(4, 100px);
   color: var(--color-semi-white);
   font-size: 14px;
 }

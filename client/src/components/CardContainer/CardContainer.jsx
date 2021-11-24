@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Card from '../Card/Card';
+import styles from './cardcontainer.module.css';
 
 function CardContainer({ recipes }) {
 	return (
-		<div>
+		<div className={styles.cardContainer}>
 			{recipes?.map((recipe) => (
 				<Card
 					key={recipe.id}

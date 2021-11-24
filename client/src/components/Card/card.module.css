@@ -1,0 +1,53 @@
+.card {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+	border: solid 1px var(--color-semi-white);
+  align-items: center;
+	text-align: center;
+  color:inherit;
+  text-decoration:none;
+  width: 30vw;
+  transition: 300ms;
+}
+
+.card:hover{
+  background-color: var(--color-semi-white);
+}
+
+.cardScore {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.cardTitle{
+  margin-top: 10px;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.cardImageContainer {
+  background-color: var(--color-semi-white);
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	width: 26vw;
+	height: 26vw;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.cardImage {
+	height: 30vw;
+}
+
+.cardDiets {
+  width: 20vw;
+  margin-top: 10px;
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  margin-bottom: 10px;
+}
