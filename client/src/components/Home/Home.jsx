@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { getRecipes } from '../../redux/actions';
 import CardContainer from '../CardContainer/CardContainer';
 import PageChanger from '../PageChanger/PageChanger';
 
-function Home({ recipes, search, getRecipes }) {
+function Home({ recipes, search }) {
+	const dispatch = useDispatch()
 	useEffect(() => {
 		if (!recipes) {
-			getRecipes();
+			dispatch(getRecipes())
 		}
-	}, []);
+	}, [dispatch, recipes]);
 
 	return (
 		<div>
@@ -33,4 +34,4 @@ function mapStateToProp(state) {
 	};
 }
 
-export default connect(mapStateToProp, { getRecipes })(Home);
+export default connect(mapStateToProp, null)(Home);

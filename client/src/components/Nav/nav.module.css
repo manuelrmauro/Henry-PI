@@ -1,0 +1,26 @@
+.nav {
+  background-color: var(--nav-background-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 45px;
+}
+
+.navIcons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100px;
+
+}
+
+.navIcon {
+  color: var(--light-icon);
+  transition: 200ms;
+  font-size:24px;
+}
+
+
+.navIcon:hover {
+  color: var(--light-icon-hover);
+}

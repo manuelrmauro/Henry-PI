@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch} from 'react-redux';
 import { getDiets, addRecipe } from '../../redux/actions';
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
-function AddForm({ diets, postId, getDiets , addRecipe}) {
-	useEffect(() => {
-		getDiets();
-	}, []);
-
-  useEffect(() => {
-    if (postId) history.push('/app/recipe/' + postId)
-  },[postId])
-
-  const history = useHistory()
-	const [steps, setSteps] = useState({ 1: '' });
+function AddForm({ diets, postId, addRecipe }) {
+	const history = useHistory();
+	const [steps, setSteps] = useState({});
 	const [input, setInput] = useState({
 		title: '',
 		summary: '',
@@ -23,11 +15,60 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 		image: '',
 		diets: [],
 	});
+	const [validate, setValidate] = useState({
+		title: 'danger',
+		summary: 'danger',
+		image: '',
+		submit: true,
+	});
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(getDiets())
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (postId) history.push('/app/recipe/' + postId);
+	}, [postId, history]);
+
+	useEffect(() => {
+		function handleValidation() {
+			const data = {
+				title: 'danger',
+				summary: 'danger',
+				image: '',
+				submit: true,
+			};
+			if (
+				/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(input.title) &&
+				input.title.length
+			) {
+				data.title = '';
+			}
+			if (input.summary.length) {
+				data.summary = '';
+			}
+			if (
+				input.image.substring(0, 7) === 'http://' ||
+				input.image.substring(0, 8) === 'https://' ||
+				!input.image.length
+			) {
+				data.image = '';
+			} else data.image = 'danger';
+			let disableSubmit = false;
+			for (const key in data) {
+				if (data[key] === 'danger') disableSubmit = true;
+			}
+			if (!disableSubmit) {
+				data.submit = false;
+			}
+			setValidate(data);
+		}
+		handleValidation();
+	}, [input.title, input.summary, input.image]);
 
 	function handleAddStep(e) {
 		e.preventDefault();
 		setSteps({ ...steps, [Object.keys(steps).length + 1]: '' });
-		console.log(steps);
 	}
 
 	function handleRemoveStep(e) {
@@ -38,54 +79,60 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 	}
 
 	function handleInputChange(e) {
-
-		if(typeof diets.find(diet => diet.name === e.target.name) === 'object') {
-      if (!input.diets.includes(e.target.name)) {
-        const diets = [...input.diets];
-        const diet = e.target.name;
-        diets.push(diet);
-        setInput({ ...input, diets });
-      } else {
-        const diets = [...input.diets];
-        const diet = e.target.name;
-        const index = diets.indexOf(diet);
-        diets.splice(index, 1);
-        setInput({ ...input, diets });
-      }
-    }
-		else if (Number.isInteger(parseInt(e.target.name))) {
-      const newSteps = {...steps}
-      newSteps[e.target.name] = e.target.value
-      setSteps(newSteps)
+		if (typeof diets.find((diet) => diet.name === e.target.name) === 'object') {
+			if (!input.diets.includes(e.target.name)) {
+				const diets = [...input.diets];
+				const diet = e.target.name;
+				diets.push(diet);
+				setInput({ ...input, diets });
+			} else {
+				const diets = [...input.diets];
+				const diet = e.target.name;
+				const index = diets.indexOf(diet);
+				diets.splice(index, 1);
+				setInput({ ...input, diets });
+			}
+		} else if (Number.isInteger(parseInt(e.target.name))) {
+			const newSteps = { ...steps };
+			newSteps[e.target.name] = e.target.value;
+			setSteps(newSteps);
 		} else {
-      setInput({ ...input, [e.target.name]: e.target.value });
-    }
-    console.log(input)
+			setInput({ ...input, [e.target.name]: e.target.value });
+		}
 	}
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    const finalSteps = Object.keys(steps).map(step => steps[step])
-    const finalObj = {...input, steps: finalSteps}
-    addRecipe(finalObj)
-  }
+	function handleSubmit(e) {
+		function capitalize(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+		}
+		e.preventDefault();
+		const finalSteps = Object.keys(steps).map((step) => steps[step]);
+		const finalObj = { ...input, steps: finalSteps };
+		finalObj.title = capitalize(finalObj.title);
+		if (finalObj.image === '') delete finalObj.image;
+		addRecipe(finalObj);
+	}
 
 	return (
 		<div>
 			<h1>ADD NEW RECIPE</h1>
-			<form onSubmit={e =>handleSubmit(e)}>
+			<form onSubmit={(e) => handleSubmit(e)}>
 				<div>
 					<label>Title</label>
 					<input
 						type="text"
 						onChange={(e) => handleInputChange(e)}
 						name="title"
-            value={input.title}
+						value={input.title}
 					/>
 				</div>
 				<div>
 					<label>Summary</label>
-					<textarea name="summary" onChange={(e) => handleInputChange(e)} value={input.summary}/>
+					<textarea
+						name="summary"
+						onChange={(e) => handleInputChange(e)}
+						value={input.summary}
+					/>
 				</div>
 				<div>
 					<label>Score</label>
@@ -96,8 +143,9 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 						step="1"
 						name="score"
 						onChange={(e) => handleInputChange(e)}
-            value={input.score}
+						value={input.score}
 					/>
+					<label>{input.score}</label>
 				</div>
 				<div>
 					<label>Health Score</label>
@@ -108,8 +156,9 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 						step="1"
 						name="healthScore"
 						onChange={(e) => handleInputChange(e)}
-            value={input.healthScore}
+						value={input.healthScore}
 					/>
+					<label>{input.healthScore}</label>
 				</div>
 				<div>
 					<label>Ready in</label>
@@ -117,7 +166,9 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 						type="number"
 						name="readyInMinutes"
 						onChange={(e) => handleInputChange(e)}
-            value={input.readyInMinutes}
+						value={input.readyInMinutes}
+						min="0"
+						max="1440"
 					/>
 					<label> (minutes)</label>
 				</div>
@@ -142,31 +193,31 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 					{Object.keys(steps).map((step) => (
 						<div>
 							<label>STEP {step}</label>
-							<textarea name={step} onChange={(e) => handleInputChange(e)} value={steps[step]}/>
-							{step >= Object.keys(steps).length ? (
-								<button onClick={(e) => handleAddStep(e)}>+</button>
-							) : (
-								false
-							)}
+							<textarea
+								name={step}
+								onChange={(e) => handleInputChange(e)}
+								value={steps[step]}
+							/>
 
-							{step >= Object.keys(steps).length && step > 1 ? (
-								<button onClick={(e) => handleRemoveStep(e)}>DELETE</button>
+							{step >= Object.keys(steps).length ? (
+								<button onClick={(e) => handleRemoveStep(e)}>X</button>
 							) : (
-								false
+								<button disabled={true}>X</button>
 							)}
 						</div>
 					))}
+					<button onClick={(e) => handleAddStep(e)}>ADD NEW STEP</button>
 				</div>
 				<div>
 					<label>Image url</label>
 					<input
-						type="url"
+						type="text"
 						name="image"
 						onChange={(e) => handleInputChange(e)}
-            value={input.image}
+						value={input.image}
 					/>
 				</div>
-				<input type="submit" value="CREATE" />
+				<input type="submit" value="CREATE" disabled={validate.submit} />
 			</form>
 		</div>
 	);
@@ -175,8 +226,8 @@ function AddForm({ diets, postId, getDiets , addRecipe}) {
 function mapStateToProps(state) {
 	return {
 		diets: state.diets,
-    postId: state.postId
+		postId: state.postId,
 	};
 }
 
-export default connect(mapStateToProps, { getDiets, addRecipe })(AddForm);
+export default connect(mapStateToProps, { addRecipe })(AddForm);

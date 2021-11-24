@@ -1,19 +1,13 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { getRecipeDetails } from '../../redux/actions';
 
-function CardDetails({ match, recipe, getRecipeDetails }) {
+function CardDetails({ match, recipe }) {
 	const id = match.params.id;
-
+	const dispatch = useDispatch()
 	useEffect(() => {
-		getRecipeDetails(id);
-	}, []);
-	/* 
-	[ ] Los campos mostrados en la ruta principal para cada receta (imagen, nombre, tipo de plato y tipo de dieta)
-	[ ] Resumen del plato
-	[ ] Puntuación
-	[ ] Nivel de "comida saludable"
-	[ ] Paso a paso */
+		dispatch(getRecipeDetails(id))
+	}, [dispatch, id]);
 
 	return (
 		<div>
@@ -28,10 +22,12 @@ function CardDetails({ match, recipe, getRecipeDetails }) {
 						{recipe.diets.map((diet) => (
 							<p>{diet}</p>
 						))}
-						{recipe.analyzedInstructions[0].steps.map(step => <div>
-							<h2>PASO {step.number}</h2>
-							<p>{step.step}</p>
-						</div>)}
+						{recipe.analyzedInstructions[0].steps.map((step) => (
+							<div>
+								<h2>PASO {step.number}</h2>
+								<p>{step.step}</p>
+							</div>
+						))}
 					</div>
 				) : (
 					'ERROR 404 not found'
@@ -49,4 +45,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, { getRecipeDetails })(CardDetails);
+export default connect(mapStateToProps, null)(CardDetails);

@@ -78,13 +78,13 @@ describe('Recipe model', () => {
 					.then(() => done(new Error('It requires a valid score')))
 					.catch(() => done());
 			});
-			it('Deberia guardar los datos como decimal', function () {
+			it('Deberia guardar los datos como entero', function () {
 				let recipe = Recipe.build({
 					title: 'comida',
 					summary: 'text here',
-					spoonacularScore: 10.1,
+					spoonacularScore: 10.0,
 				});
-				expect(recipe.spoonacularScore).to.equal(10.1);
+				expect(recipe.spoonacularScore).to.equal(10);
 			});
 		});
 		describe('HealthScore', () => {
@@ -97,13 +97,13 @@ describe('Recipe model', () => {
 					.then(() => done(new Error('It requires a valid score')))
 					.catch(() => done());
 			});
-			it('Deberia guardar los datos como decimal', function () {
+			it('Deberia guardar los datos como numero entero', function () {
 				let recipe = Recipe.build({
 					title: 'comida',
 					summary: 'text here',
-					healthScore: 10,
+					healthScore: 10.0,
 				});
-				expect(recipe.healthScore).to.equal(10.0);
+				expect(recipe.healthScore).to.equal(10);
 			});
 		});
 		describe('ReadyInMinutes', () => {

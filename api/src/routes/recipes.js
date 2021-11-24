@@ -37,8 +37,8 @@ router.get('/', async function (req, res) {
 				return res.json([]);
 			}
 		}
-		// ORDENAR ALFABETICAMENTE O POR SCORE
-		if (req.query.order) {
+		// DESCOMENTAR PARA NO  USAR LA API EXTERNA
+		/* if (req.query.order) {
 			if (req.query.order === 'alpha')
 				dbRecipes = sort(dbRecipes, 'title', 'asc');
 			if (req.query.order === 'alphaDesc')
@@ -48,7 +48,7 @@ router.get('/', async function (req, res) {
 			if (req.query.order === 'scoreDesc')
 				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'desc');
 		}
-		return res.json(dbRecipes);
+		return res.json(dbRecipes); */
 		// EXTERNAL API
 		const eaRecipes = await axios
 			.get(
@@ -88,7 +88,7 @@ router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
 		let recipe;
-		if (id >= 10000) {
+		if (id >= 1000000) {
 			// DATABASE
 			recipe = await Recipe.findByPk(id, {
 				include: [

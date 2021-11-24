@@ -12,17 +12,17 @@ module.exports = (sequelize) => {
 			},
 		},
 		summary: {
-			type: DataTypes.TEXT,
+			type: DataTypes.TEXT(500),
 			allowNull: false,
 			validate: {
 				not: /^[0-9]+$/i,
 			},
 		},
 		spoonacularScore: {
-			type: DataTypes.DECIMAL(4, 1),
+			type: DataTypes.INTEGER(100),
 		},
 		healthScore: {
-			type: DataTypes.DECIMAL(4, 1),
+			type: DataTypes.INTEGER(100),
 		},
 		readyInMinutes: {
 			type: DataTypes.INTEGER,

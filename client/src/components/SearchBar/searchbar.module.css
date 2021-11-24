@@ -1,0 +1,32 @@
+.allSearchBar {
+  display: flex;
+}
+
+.searchBar, .orderBy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.searchInput {
+  width: 240px;
+  height: 20px;
+  border-radius: 5px;
+  border: transparent;
+}
+
+.searchBtn {
+    color: var(--light-icon);
+    font-size:28px;
+    background-color: var(--color-dark);
+    border:transparent;
+    cursor: pointer;
+    padding-top: 8px;
+    transition: 200ms;
+}
+
+.searchBtn:hover {
+  color: var(--light-icon-hover)
+}

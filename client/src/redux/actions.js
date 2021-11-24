@@ -43,7 +43,18 @@ export const getRecipes = function (name = '', order = '', diets = []) {
 					payload: { data, content, pages, actualPage: 1, search: name },
 				});
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				dispatch({
+					type: GET_RECIPES,
+					payload: {
+						data: [],
+						content: [],
+						pages: null,
+						actualPage: null,
+						search: name,
+					},
+				});
+			});
 	};
 };
 
@@ -70,7 +81,9 @@ export const getRecipeDetails = function (id) {
 			.then((res) => {
 				dispatch({ type: GET_RECIPE_DETAILS, payload: res });
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				dispatch({ type: GET_RECIPE_DETAILS, payload: {} });
+			});
 	};
 };
 
@@ -80,22 +93,26 @@ export const getDiets = function () {
 			.then((res) => res.json())
 			.then((res) => {
 				dispatch({ type: GET_DIETS, payload: res });
+			})
+			.catch((err) => {
+				dispatch({ type: GET_DIETS, payload: [] });
 			});
 	};
 };
 
 export const addRecipe = function (recipe) {
 	return function (dispatch) {
-	fetch('http://localhost:3001/recipe',{
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(recipe)
-	})
-	.then(res => res.json())
-	.then(res => {
-		dispatch({type:ADD_RECIPE, payload: res.id})
-		dispatch({type:ADD_RECIPE, payload: null})
-	})
-	}
-}
-
+		fetch('http://localhost:3001/recipe', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(recipe),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				dispatch({ type: ADD_RECIPE, payload: res.id });
+				dispatch({ type: ADD_RECIPE, payload: null });
+			})
+			.catch((err) => {
+			});
+	};
+};
