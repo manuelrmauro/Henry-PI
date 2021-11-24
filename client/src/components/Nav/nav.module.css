@@ -3,21 +3,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 45px;
+  height: 60px;
 }
 
 .navIcons {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 100px;
+  width: 120px;
 
 }
 
 .navIcon {
   color: var(--light-icon);
   transition: 200ms;
-  font-size:24px;
+  font-size:30px;
 }
 
 

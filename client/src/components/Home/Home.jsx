@@ -10,7 +10,7 @@ function Home({ recipes, search }) {
 		if (!recipes) {
 			dispatch(getRecipes())
 		}
-	}, [dispatch, recipes]);
+	}, [dispatch]);
 
 	return (
 		<div>

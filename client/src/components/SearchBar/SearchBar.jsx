@@ -60,14 +60,22 @@ function SearchBar({ diets, getRecipes }) {
 
 	return (
 		<form onSubmit={(e) => handleOnSubmit(e)} className={styles.allSearchBar}>
-			<div className={styles.searchBar}>
-				<input
-					onChange={(e) => handleInputChange(e)}
-					value={input.name}
-					name="name"
-					className={styles.searchInput}
-				/>
-				<button type="submit"className={styles.searchBtn} ><IoSearchCircleSharp/></button>
+			<div className={styles.dietBoxes}>
+				{diets
+					? diets.map((diet) => (
+							<span class={styles.dietBox}>
+								<input
+									key={diet.id}
+									type="checkbox"
+									name={diet.name}
+									onClick={(e) => handleFilter(e)}
+									class={styles.dietCheckBox}
+									
+								/>
+								<label>{diet.name}</label>
+							</span>
+					  ))
+					: null}
 			</div>
 			<div className={styles.orderBy}>
 				{/* <input
@@ -77,10 +85,11 @@ function SearchBar({ diets, getRecipes }) {
 					checked={!input.disabled}
 				/> */}
 				<label>ORDER BY</label>
-				<select
+				<select 
 					name="orders"
 					onChange={(e) => handleOrder(e)}
 					value={input.order}
+					className={styles.orderInput}
 				>
 					<option value=""></option>
 					<option value="alpha">A-Z</option>
@@ -89,20 +98,15 @@ function SearchBar({ diets, getRecipes }) {
 					<option value="score">MIN</option>
 				</select>
 			</div>
-			<div>
-				{diets
-					? diets.map((diet) => (
-							<span>
-								<input
-									key={diet.id}
-									type="checkbox"
-									name={diet.name}
-									onClick={(e) => handleFilter(e)}
-								/>
-								<label>{diet.name}</label>
-							</span>
-					  ))
-					: null}
+			
+			<div className={styles.searchBar}>
+				<input
+					onChange={(e) => handleInputChange(e)}
+					value={input.name}
+					name="name"
+					className={styles.searchInput}
+				/>
+				<button type="submit"className={styles.searchBtn} ><IoSearchCircleSharp/></button>
 			</div>
 		</form>
 	);
