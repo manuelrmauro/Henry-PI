@@ -3,19 +3,21 @@ import { connect, useDispatch } from 'react-redux';
 import { getRecipes } from '../../redux/actions';
 import CardContainer from '../CardContainer/CardContainer';
 import PageChanger from '../PageChanger/PageChanger';
-import styles from './home.module.css'
+import styles from './home.module.css';
 
 function Home({ recipes, search }) {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	useEffect(() => {
 		if (!recipes && search === '') {
-			dispatch(getRecipes())
+			dispatch(getRecipes());
 		}
 	}, [dispatch]);
 
 	return (
 		<div className={styles.home}>
-			{search.length?<div className={styles.homeText}>Search results of: '{search}'</div>:null}
+			{search.length ? (
+				<div className={styles.homeText}>Search results of: '{search}'</div>
+			) : null}
 			{recipes ? (
 				recipes.length ? (
 					<div>
@@ -23,10 +25,17 @@ function Home({ recipes, search }) {
 						<CardContainer />
 						<PageChanger />
 					</div>
-				) : <div className={styles.homeText}>'No results have been found...'</div>
-			) : <img className={styles.loading} src='https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif'/>}
+				) : (
+					<div className={styles.homeText}>'No results have been found...'</div>
+				)
+			) : (
+				<img
+					className={styles.loading}
+					alt="loading"
+					src="https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif"
+				/>
+			)}
 		</div>
-		
 	);
 }
 

@@ -22,13 +22,13 @@ function PageChanger({ page, pages, allRecipes, getPage }) {
 					{page > 1 ? (
 						<button onClick={(e) => handlePrevPage(e)} className={styles.pageChangerBtn}><FaArrowAltCircleLeft/></button>
 					) : (
-						<button disabled='true' className={styles.pageChangerBtn}><FaArrowAltCircleLeft/></button>
+						<button disabled={true} className={styles.pageChangerBtn}><FaArrowAltCircleLeft/></button>
 					)}
 					{page}/{pages}
 					{page < pages ? (
 						<button onClick={(e) => handleNextPage(e)} className={styles.pageChangerBtn}><FaArrowAltCircleRight/></button>
 					) : (
-						<button disabled='true' className={styles.pageChangerBtn}><FaArrowAltCircleRight/></button>
+						<button disabled={true} className={styles.pageChangerBtn}><FaArrowAltCircleRight/></button>
 					)}
 				</div>
 			) : (

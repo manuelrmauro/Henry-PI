@@ -17,7 +17,6 @@ function SearchBar({ diets, getRecipes }) {
 		name: '',
 		order: '',
 		diets: [],
-		/* disabled: true, */
 	});
 
 	function handleOnSubmit(e) {
@@ -28,13 +27,9 @@ function SearchBar({ diets, getRecipes }) {
 		} else {
 			getRecipes(input.name, input.order);
 		}
-		//	setInput({ ...input, name: '', order: '' });
 	}
 
 	function handleOrder(e) {
-		/* if (e.target.name === 'orderBy') {
-			setInput({ ...input, disabled: !input.disabled });
-		} else { */
 			setInput({ ...input, order: e.target.value });
 		
 	}
@@ -63,13 +58,12 @@ function SearchBar({ diets, getRecipes }) {
 			<div className={styles.dietBoxes}>
 				{diets
 					? diets.map((diet) => (
-							<span class={styles.dietBox}>
+							<span key={diet.id} className={styles.dietBox}>
 								<input
-									key={diet.id}
 									type="checkbox"
 									name={diet.name}
 									onClick={(e) => handleFilter(e)}
-									class={styles.dietCheckBox}
+									className={styles.dietCheckBox}
 									
 								/>
 								<label>{diet.name}</label>
@@ -78,12 +72,6 @@ function SearchBar({ diets, getRecipes }) {
 					: null}
 			</div>
 			<div className={styles.orderBy}>
-				{/* <input
-					type="checkbox"
-					onChange={(e) => handleOrder(e)}
-					name="orderBy"
-					checked={!input.disabled}
-				/> */}
 				<label>ORDER BY</label>
 				<select 
 					name="orders"

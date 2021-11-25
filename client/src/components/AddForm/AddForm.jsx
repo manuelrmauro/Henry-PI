@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch} from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { getDiets, addRecipe } from '../../redux/actions';
 import { useHistory } from 'react-router-dom';
 
@@ -21,9 +21,9 @@ function AddForm({ diets, postId, addRecipe }) {
 		image: '',
 		submit: true,
 	});
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getDiets())
+		dispatch(getDiets());
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -176,9 +176,8 @@ function AddForm({ diets, postId, addRecipe }) {
 					<label>Diets</label>
 					{diets
 						? diets.map((diet) => (
-								<span>
+								<span key={diet.id}>
 									<input
-										key={diet.id}
 										type="checkbox"
 										name={diet.name}
 										onClick={(e) => handleInputChange(e)}
@@ -191,7 +190,7 @@ function AddForm({ diets, postId, addRecipe }) {
 				<div>
 					<label>Steps</label>
 					{Object.keys(steps).map((step) => (
-						<div>
+						<div key={step}>
 							<label>STEP {step}</label>
 							<textarea
 								name={step}
