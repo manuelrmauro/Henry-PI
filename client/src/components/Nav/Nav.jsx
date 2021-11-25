@@ -20,10 +20,10 @@ function Nav({ getRecipes }) {
 	return (
 		<div className={styles.nav}>
 			<div className={styles.navIcons}>
-				<Link to="/app" onClick={(e) => onClick(e)} className={styles.navIcon}>
+				<Link to="/app" onClick={(e) => onClick(e)} className={styles.homeIcon}>
 					<AiFillHome/>
 				</Link>
-				<Link to="/app/add" className={styles.navIcon}><AiFillFileAdd/></Link>
+				<Link to="/app/add" className={styles.addIcon}><AiFillFileAdd/></Link>
 			</div>
 			{refresh ? <SearchBar /> : false}
 		</div>

@@ -1,9 +1,8 @@
 .card {
-  margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-	border: solid 1px var(--color-semi-white);
+	border: solid 1px var(--white-icon-hover);
   align-items: center;
 	text-align: center;
   color:inherit;
@@ -13,7 +12,7 @@
 }
 
 .card:hover{
-  background-color: var(--color-semi-white);
+  background-color: var(--white-icon-hover);
 }
 
 .cardScore {
@@ -29,7 +28,8 @@
 }
 
 .cardImageContainer {
-  background-color: var(--color-semi-white);
+  background-image: url(https://notreafrik.l-agence.digital/wp-content/themes/notreAfrik/img/image-not-found.png);
+  background-position: center;
   margin-top: 10px;
   display: flex;
   justify-content: center;

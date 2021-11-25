@@ -1,26 +1,28 @@
 .nav {
-  background-color: var(--nav-background-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
+	background-color: var(--nav-background-color);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 60px;
 }
 
 .navIcons {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 120px;
-
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 120px;
 }
 
-.navIcon {
-  color: var(--light-icon);
-  transition: 200ms;
-  font-size:30px;
+.homeIcon,
+.addIcon {
+	color: var(--light-icon);
+	transition: 200ms;
+	font-size: 30px;
 }
 
-
-.navIcon:hover {
-  color: var(--light-icon-hover);
+.homeIcon:hover {
+	color: var(--white-icon-hover);
+}
+.addIcon:hover {
+	color: var(--red-icon-hover);
 }

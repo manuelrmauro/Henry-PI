@@ -6,13 +6,17 @@ body {
 
 
 	--light-icon:var(--color-white);
-	--light-icon-hover: var(--color-semi-white);
+	--white-icon-hover: var(--color-light-white);
 	--nav-background-color: var(--color-dark);
+	--red-icon-hover : var(--color-red);
+	--blue-icon-hover: var(--color-light-blue);
 
 
 	--color-dark: rgb(31, 31, 31);
 	--color-white: white;
-	--color-semi-white: rgb(216, 216, 216);
+	--color-light-white: rgb(210, 210, 210);
+	--color-red: rgb(235, 75, 75);
+	--color-light-blue: rgb(100, 190, 255);
 }
 
 

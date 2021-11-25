@@ -23,7 +23,7 @@
 	border: transparent;
 	height: 28px;
   margin-left: 5px;
-  width: 38px;
+  width: 48px;
   cursor: pointer;
 }
 
@@ -37,7 +37,7 @@
 .searchBtn {
 	color: var(--light-icon);
 	font-size: 36px;
-	background-color: var(--color-dark);
+	background-color:transparent;
 	border: transparent;
 	cursor: pointer;
 	padding-top: 8px;
@@ -45,14 +45,14 @@
 }
 
 .searchBtn:hover {
-	color: var(--light-icon-hover);
+	color: var(--blue-icon-hover);
 }
 
 
 .dietBoxes {
   display: grid;
   grid-template-columns: repeat(4, 100px);
-  color: var(--color-semi-white);
+  color: var(--white-icon-hover);
   font-size: 14px;
 }
 

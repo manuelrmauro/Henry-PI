@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getPage } from '../../redux/actions';
+import styles from './pagechanger.module.css'
+import {FaArrowAltCircleLeft,FaArrowAltCircleRight} from 'react-icons/fa'
 
 function PageChanger({ page, pages, allRecipes, getPage }) {
 	function handlePrevPage(e) {
@@ -14,19 +16,19 @@ function PageChanger({ page, pages, allRecipes, getPage }) {
 	}
 
 	return (
-		<div>
+		<div className={styles.pageChanger}>
 			{pages > 1 ? (
-				<div>
+				<div className={styles.pageChanger}>
 					{page > 1 ? (
-						<button onClick={(e) => handlePrevPage(e)}>{'<'}</button>
+						<button onClick={(e) => handlePrevPage(e)} className={styles.pageChangerBtn}><FaArrowAltCircleLeft/></button>
 					) : (
-						false
+						<button disabled='true' className={styles.pageChangerBtn}><FaArrowAltCircleLeft/></button>
 					)}
 					{page}/{pages}
 					{page < pages ? (
-						<button onClick={(e) => handleNextPage(e)}>{'>'}</button>
+						<button onClick={(e) => handleNextPage(e)} className={styles.pageChangerBtn}><FaArrowAltCircleRight/></button>
 					) : (
-						false
+						<button disabled='true' className={styles.pageChangerBtn}><FaArrowAltCircleRight/></button>
 					)}
 				</div>
 			) : (

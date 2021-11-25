@@ -1,0 +1,15 @@
+.pageChanger {
+  margin-top: 4px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageChangerBtn {
+  border-style: none;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 24px;
+  margin-top: 6px;
+}
