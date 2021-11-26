@@ -9,8 +9,8 @@ function AddForm({ diets, postId, addRecipe }) {
 	const history = useHistory();
 	const [steps, setSteps] = useState({});
 	const [input, setInput] = useState({
-		title: '',
-		summary: '',
+		title: null,
+		summary: null,
 		score: 0,
 		healthScore: 0,
 		readyInMinutes: 0,
@@ -34,21 +34,34 @@ function AddForm({ diets, postId, addRecipe }) {
 	}, [input.readyInMinutes]);
 
 	useEffect(() => {
-		setInput({...input, title : input.title.trimStart(), summary: input.summary.trimStart()})
-	},[input.title, input.summary])
+		if (input.title)
+			setInput({
+				...input,
+				title: input.title.trimStart()
+			});
+			if (input.summary)
+			setInput({
+				...input,
+				summary: input.summary.trimStart()
+			});
+	}, [input.title, input.summary]);
 
 	useEffect(() => {
 		function handleValidation() {
 			const error = {
 				submit: false,
 			};
-			if (input.title.length === 0) {
+			if (input.title === null) {
+				error.error = null;
+			} else if (input.title.length === 0) {
 				error.title = 'enter a title';
 			}
 			if (!/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(input.title)) {
 				error.title = 'title can only have letters';
 			}
-			if (input.summary.length === 0) {
+			if (input.summary === null) {
+				error.error = null;
+			} else if (input.summary.length === 0) {
 				error.summary = 'enter a summary';
 			}
 			if (
