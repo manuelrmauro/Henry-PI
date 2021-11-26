@@ -1,0 +1,141 @@
+.addFormContainer {
+  margin: 10px 200px;
+    padding: 0px;
+	border: solid 1px var(--white-icon-hover);
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.addForm {
+  display: flex;
+	flex-direction: column;
+  padding: 40px;
+  padding-top: 24px;
+}
+
+.addFormTitle {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+
+.afTitle {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.afTitleInput, .afImageInput, .afSummaryInput, .afReadyInput, .afStepInput {
+  border: var(--white-icon-hover) solid 1px;
+  width:100%;
+  height: 24px;
+  font-size: 16px;
+}
+
+.afSummaryInput {
+  resize: none;
+  height: 200px;
+}
+
+.afDiets {
+  width: 150px;
+}
+
+.afDiets label {
+  font-size: 16px;
+}
+
+.afDietsAndScores {
+  display: flex;
+}
+
+.afScores {
+  margin-left: 160px;
+  width: 305px;
+}
+
+.afScoreInput, .afHealthScoreInput{
+width: 300px;
+background-color:aqua;
+}
+
+.afReadyInput {
+  width: 50px;
+}
+
+.removeStepBtn, .addStepBtn {
+  border: none;
+  font-size: 24px;
+  background: none;
+  width: 24px;
+  height: 24px;
+  color: var(--blue-icon-hover);
+  cursor:pointer;
+  transition: 200ms;
+}
+
+.removeStepBtn {
+  transform: rotate(45deg);
+  color: var(--red-icon-hover);
+  width: 30px;
+  height: 30px;
+}
+
+.removeStepBtn:disabled {
+  color: var(--white-icon-hover);
+  cursor: auto;
+}
+
+
+
+.afStepInput {
+  display: block;
+  resize: none;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 86px;
+  margin-bottom: 6px;
+}
+
+.stepTitle label {
+  font-size: 16px;
+}
+
+.afSubmit {
+  display: flex;
+  justify-content: center;
+}
+
+.afSubmitBtn {
+  width: 120px;
+  font-size: 26px;
+  border: none;
+  background-color: var(--blue-icon-hover);
+  border-radius: 5px;
+  color: white;
+  margin-top: 40px;
+  cursor: pointer;
+}
+
+.afSubmitBtn:disabled {
+  background-color: var(--white-icon-hover);
+  cursor: auto;
+}
+
+.removeStepBtn:hover, .addStepBtn:hover, .afSubmitBtn:hover {
+  opacity: 0.8;
+}
+
+.afError {
+  color: var(--red-icon-hover);
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}

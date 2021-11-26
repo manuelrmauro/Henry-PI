@@ -26,7 +26,7 @@ function Home({ recipes, search }) {
 						<PageChanger />
 					</div>
 				) : (
-					<div className={styles.homeText}>'No results have been found...'</div>
+					<div className={styles.homeText}>No results have been found...</div>
 				)
 			) : (
 				<img

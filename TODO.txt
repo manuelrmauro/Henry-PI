@@ -44,11 +44,10 @@ TEORIA A REFORZAR
 
 
 cloudinary
-filtrado automatico con el click
+filtrado automatico con el click *
 revisar promesas / practicar
-hacer errores y mostar mensajes
-modificar condicionales
+hacer errores y mostrar mensajes 
+modificar condicionales *
 repasar redux thunk
 react router dom ( que parametros )
 entender map dispatch
-solucionar search and then home

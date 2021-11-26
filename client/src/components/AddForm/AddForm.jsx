@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { getDiets, addRecipe } from '../../redux/actions';
 import { useHistory } from 'react-router-dom';
+import styles from './addform.module.css';
+import { BsFillPlusCircleFill } from 'react-icons/bs';
 
 function AddForm({ diets, postId, addRecipe }) {
 	const history = useHistory();
@@ -16,9 +18,6 @@ function AddForm({ diets, postId, addRecipe }) {
 		diets: [],
 	});
 	const [validate, setValidate] = useState({
-		title: 'danger',
-		summary: 'danger',
-		image: '',
 		submit: true,
 	});
 	const dispatch = useDispatch();
@@ -31,37 +30,39 @@ function AddForm({ diets, postId, addRecipe }) {
 	}, [postId, history]);
 
 	useEffect(() => {
+		if (!input.readyInMinutes) setInput({ ...input, readyInMinutes: 0 });
+	}, [input.readyInMinutes]);
+
+	useEffect(() => {
+		setInput({...input, title : input.title.trimStart(), summary: input.summary.trimStart()})
+	},[input.title, input.summary])
+
+	useEffect(() => {
 		function handleValidation() {
-			const data = {
-				title: 'danger',
-				summary: 'danger',
-				image: '',
-				submit: true,
+			const error = {
+				submit: false,
 			};
+			if (input.title.length === 0) {
+				error.title = 'enter a title';
+			}
+			if (!/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(input.title)) {
+				error.title = 'title can only have letters';
+			}
+			if (input.summary.length === 0) {
+				error.summary = 'enter a summary';
+			}
 			if (
-				/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(input.title) &&
-				input.title.length
+				input.image.substring(0, 7) !== 'http://' &&
+				input.image.substring(0, 8) !== 'https://' &&
+				input.image.length
 			) {
-				data.title = '';
+				error.image = 'image must be an url';
 			}
-			if (input.summary.length) {
-				data.summary = '';
-			}
-			if (
-				input.image.substring(0, 7) === 'http://' ||
-				input.image.substring(0, 8) === 'https://' ||
-				!input.image.length
-			) {
-				data.image = '';
-			} else data.image = 'danger';
-			let disableSubmit = false;
-			for (const key in data) {
-				if (data[key] === 'danger') disableSubmit = true;
-			}
-			if (!disableSubmit) {
-				data.submit = false;
-			}
-			setValidate(data);
+
+			if (Object.keys(error).length > 1) error.submit = true;
+
+			setValidate(error);
+			console.log(validate);
 		}
 		handleValidation();
 	}, [input.title, input.summary, input.image]);
@@ -114,109 +115,142 @@ function AddForm({ diets, postId, addRecipe }) {
 	}
 
 	return (
-		<div>
-			<h1>ADD NEW RECIPE</h1>
-			<form onSubmit={(e) => handleSubmit(e)}>
-				<div>
-					<label>Title</label>
-					<input
-						type="text"
-						onChange={(e) => handleInputChange(e)}
-						name="title"
-						value={input.title}
-					/>
-				</div>
-				<div>
-					<label>Summary</label>
-					<textarea
-						name="summary"
-						onChange={(e) => handleInputChange(e)}
-						value={input.summary}
-					/>
-				</div>
-				<div>
-					<label>Score</label>
-					<input
-						type="range"
-						min="0"
-						max="100"
-						step="1"
-						name="score"
-						onChange={(e) => handleInputChange(e)}
-						value={input.score}
-					/>
-					<label>{input.score}</label>
-				</div>
-				<div>
-					<label>Health Score</label>
-					<input
-						type="range"
-						min="0"
-						max="100"
-						step="1"
-						name="healthScore"
-						onChange={(e) => handleInputChange(e)}
-						value={input.healthScore}
-					/>
-					<label>{input.healthScore}</label>
-				</div>
-				<div>
-					<label>Ready in</label>
-					<input
-						type="number"
-						name="readyInMinutes"
-						onChange={(e) => handleInputChange(e)}
-						value={input.readyInMinutes}
-						min="0"
-						max="1440"
-					/>
-					<label> (minutes)</label>
-				</div>
-				<div>
-					<label>Diets</label>
-					{diets
-						? diets.map((diet) => (
-								<span key={diet.id}>
+		<div className={styles.addFormContainer}>
+			<form className={styles.addForm} onSubmit={(e) => handleSubmit(e)}>
+				<div className={styles.addFormTitle}>NEW RECIPE</div>
+
+				<label className={styles.afTitle}>Title *</label>
+
+				<input
+					className={styles.afTitleInput}
+					type="text"
+					onChange={(e) => handleInputChange(e)}
+					name="title"
+					value={input.title}
+				/>
+				<label className={styles.afError}>
+					{'title' in validate && validate.title}
+				</label>
+				<label className={styles.afTitle}>Summary *</label>
+
+				<textarea
+					className={styles.afSummaryInput}
+					name="summary"
+					onChange={(e) => handleInputChange(e)}
+					value={input.summary}
+				/>
+				<label className={styles.afError}>
+					{'summary' in validate && validate.summary}
+				</label>
+				<div className={styles.afDietsAndScores}>
+					<div className={styles.afDiets}>
+						<p className={styles.afTitle}>Diets</p>
+						{diets &&
+							diets.map((diet) => (
+								<div key={diet.id}>
 									<input
 										type="checkbox"
 										name={diet.name}
 										onClick={(e) => handleInputChange(e)}
 									/>
-									<label>{diet.name}</label>
-								</span>
-						  ))
-						: null}
-				</div>
-				<div>
-					<label>Steps</label>
-					{Object.keys(steps).map((step) => (
-						<div key={step}>
-							<label>STEP {step}</label>
-							<textarea
-								name={step}
-								onChange={(e) => handleInputChange(e)}
-								value={steps[step]}
-							/>
+									<label> {diet.name}</label>
+								</div>
+							))}
+					</div>
 
-							{step >= Object.keys(steps).length ? (
-								<button onClick={(e) => handleRemoveStep(e)}>X</button>
-							) : (
-								<button disabled={true}>X</button>
-							)}
-						</div>
-					))}
-					<button onClick={(e) => handleAddStep(e)}>ADD NEW STEP</button>
+					<div className={styles.afScores}>
+						<label className={styles.afTitle}>Score</label>
+						<input
+							className={styles.afScoreInput}
+							type="range"
+							min="0"
+							max="100"
+							step="1"
+							name="score"
+							onChange={(e) => handleInputChange(e)}
+							value={input.score}
+						/>
+						<label>{input.score}</label>
+
+						<label className={styles.afTitle}>Health Score</label>
+						<input
+							className={styles.afHealthScoreInput}
+							type="range"
+							min="0"
+							max="100"
+							step="1"
+							name="healthScore"
+							onChange={(e) => handleInputChange(e)}
+							value={input.healthScore}
+						/>
+						<label>{input.healthScore}</label>
+
+						<label className={styles.afTitle}>
+							Ready in{' '}
+							<input
+								className={styles.afReadyInput}
+								type="number"
+								name="readyInMinutes"
+								onChange={(e) => handleInputChange(e)}
+								value={input.readyInMinutes}
+								min="0"
+								max="1440"
+							/>{' '}
+							(minutes)
+						</label>
+					</div>
 				</div>
-				<div>
-					<label>Image url</label>
+
+				<p className={styles.afTitle}>Steps</p>
+				{Object.keys(steps).map((step) => (
+					<div key={step}>
+						<div className={styles.stepTitle}>
+							{step >= Object.keys(steps).length ? (
+								<button
+									className={styles.removeStepBtn}
+									onClick={(e) => handleRemoveStep(e)}
+								>
+									<BsFillPlusCircleFill />
+								</button>
+							) : (
+								<button className={styles.removeStepBtn} disabled={true}>
+									<BsFillPlusCircleFill />
+								</button>
+							)}
+							<label>Step {step}</label>
+						</div>
+						<textarea
+							className={styles.afStepInput}
+							name={step}
+							onChange={(e) => handleInputChange(e)}
+							value={steps[step]}
+						/>
+					</div>
+				))}
+				<button className={styles.addStepBtn} onClick={(e) => handleAddStep(e)}>
+					<BsFillPlusCircleFill />
+				</button>
+
+				<label className={styles.afTitle}>Image url</label>
+
+				<input
+					className={styles.afImageInput}
+					type="text"
+					name="image"
+					onChange={(e) => handleInputChange(e)}
+					value={input.image}
+				/>
+				<label className={styles.afError}>
+					{'image' in validate && validate.image}
+				</label>
+				<div className={styles.afSubmit}>
 					<input
-						type="text"
-						name="image"
-						onChange={(e) => handleInputChange(e)}
-						value={input.image}
+						className={styles.afSubmitBtn}
+						type="submit"
+						value="SAVE"
+						disabled={validate.submit}
 					/>
 				</div>
-				<input type="submit" value="CREATE" disabled={validate.submit} />
 			</form>
 		</div>
 	);
