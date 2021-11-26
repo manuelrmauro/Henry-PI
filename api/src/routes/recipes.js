@@ -48,16 +48,16 @@ router.get('/', async function (req, res) {
 			if (req.query.order === 'scoreDesc')
 				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'desc');
 		}
-		return res.json(dbRecipes); 
+		return res.json(dbRecipes);  
 		// EXTERNAL API
 		const eaRecipes = await axios
 			.get(
 				`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
 			)
-			.then((res) => res.data.results);
+
 
 		// AMBAS LISTAS UNIFICADAS
-		let recipes = [...dbRecipes, ...eaRecipes];
+		let recipes = [...dbRecipes, ...eaRecipes.data.results];
 		// BUSQUEDA POR NAME
 		if (req.query.name) {
 			recipes = recipes.filter((recipe) =>
@@ -80,7 +80,7 @@ router.get('/', async function (req, res) {
 
 		res.json(recipes);
 	} catch (error) {
-		console.log(error);
+		res.status(400)
 	}
 });
 
@@ -116,8 +116,8 @@ router.get('/:id', async (req, res) => {
 				.get(
 					`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
 				)
-				.then((res) => res.data);
-			filteredRecipe = {
+				recipe = recipe.data
+				filteredRecipe = {
 				id,
 				title: recipe.title,
 				summary: recipe.summary,
@@ -132,7 +132,7 @@ router.get('/:id', async (req, res) => {
 			res.json(recipe);
 		}
 	} catch (error) {
-		console.log(error);
+		res.status(400)
 	}
 });
 

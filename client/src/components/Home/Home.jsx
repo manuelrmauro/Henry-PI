@@ -17,7 +17,7 @@ function Home({ recipes, search }) {
 		<div className={styles.home}>
 			{search.length ? (
 				<div className={styles.homeText}>Search results of: '{search}'</div>
-			) : null}
+			):null}
 			{recipes ? (
 				recipes.length ? (
 					<div>

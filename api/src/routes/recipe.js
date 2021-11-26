@@ -46,7 +46,7 @@ router.post('/', async function (req, res) {
       return res.json(recipe);
 		}
 	}
-
+	return res.status(400)
 
 });
 

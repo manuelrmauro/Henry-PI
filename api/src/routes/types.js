@@ -9,7 +9,7 @@ router.get('/', async (req,res) => {
     const types = await Diet.findAll()
     res.json(types)
   } catch (error) {
-    
+    res.status(400)
   }
 })
 

@@ -43,3 +43,12 @@ TEORIA A REFORZAR
 -REDUX REDUCER, ACTIONS, DISPATCH
 
 
+cloudinary
+filtrado automatico con el click
+revisar promesas / practicar
+hacer errores y mostar mensajes
+modificar condicionales
+repasar redux thunk
+react router dom ( que parametros )
+entender map dispatch
+solucionar search and then home
