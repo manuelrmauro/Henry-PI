@@ -38,7 +38,7 @@ router.get('/', async function (req, res) {
 			}
 		}
 		// DESCOMENTAR PARA NO  USAR LA API EXTERNA
-		 if (req.query.order) {
+		 /* if (req.query.order) {
 			if (req.query.order === 'alpha')
 				dbRecipes = sort(dbRecipes, 'title', 'asc');
 			if (req.query.order === 'alphaDesc')
@@ -48,7 +48,7 @@ router.get('/', async function (req, res) {
 			if (req.query.order === 'scoreDesc')
 				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'desc');
 		}
-		return res.json(dbRecipes);  
+		return res.json(dbRecipes);   */
 		// EXTERNAL API
 		const eaRecipes = await axios
 			.get(

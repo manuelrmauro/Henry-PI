@@ -9,8 +9,8 @@ function AddForm({ diets, postId, addRecipe }) {
 	const history = useHistory();
 	const [steps, setSteps] = useState({});
 	const [input, setInput] = useState({
-		title: null,
-		summary: null,
+		title: '',
+		summary: '',
 		score: 0,
 		healthScore: 0,
 		readyInMinutes: 0,
@@ -20,13 +20,19 @@ function AddForm({ diets, postId, addRecipe }) {
 	const [validate, setValidate] = useState({
 		submit: true,
 	});
+	const [success, setSuccess] = useState('none');
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getDiets());
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (postId) history.push('/app/recipe/' + postId);
+		if (postId) {
+			setSuccess('flex');
+			setTimeout(() => {
+				history.push('/app/recipe/' + postId);
+			}, 1100);
+		}
 	}, [postId, history]);
 
 	useEffect(() => {
@@ -37,12 +43,12 @@ function AddForm({ diets, postId, addRecipe }) {
 		if (input.title)
 			setInput({
 				...input,
-				title: input.title.trimStart()
+				title: input.title.trimStart(),
 			});
-			if (input.summary)
+		if (input.summary)
 			setInput({
 				...input,
-				summary: input.summary.trimStart()
+				summary: input.summary.trimStart(),
 			});
 	}, [input.title, input.summary]);
 
@@ -51,17 +57,13 @@ function AddForm({ diets, postId, addRecipe }) {
 			const error = {
 				submit: false,
 			};
-			if (input.title === null) {
-				error.error = null;
-			} else if (input.title.length === 0) {
+			if (input.title.length === 0) {
 				error.title = 'enter a title';
 			}
 			if (!/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(input.title)) {
 				error.title = 'title can only have letters';
 			}
-			if (input.summary === null) {
-				error.error = null;
-			} else if (input.summary.length === 0) {
+			if (input.summary.length === 0) {
 				error.summary = 'enter a summary';
 			}
 			if (
@@ -75,7 +77,6 @@ function AddForm({ diets, postId, addRecipe }) {
 			if (Object.keys(error).length > 1) error.submit = true;
 
 			setValidate(error);
-			console.log(validate);
 		}
 		handleValidation();
 	}, [input.title, input.summary, input.image]);
@@ -113,6 +114,7 @@ function AddForm({ diets, postId, addRecipe }) {
 		} else {
 			setInput({ ...input, [e.target.name]: e.target.value });
 		}
+		console.log(input);
 	}
 
 	function handleSubmit(e) {
@@ -129,6 +131,13 @@ function AddForm({ diets, postId, addRecipe }) {
 
 	return (
 		<div className={styles.addFormContainer}>
+			<div className={styles.created} style={{ display: success }}>
+				<img
+					style={{ display: success }}
+					src="https://thumbs.gfycat.com/QuaintLikelyFlyingfish-size_restricted.gif"
+					alt="created"
+				/>
+			</div>
 			<form className={styles.addForm} onSubmit={(e) => handleSubmit(e)}>
 				<div className={styles.addFormTitle}>NEW RECIPE</div>
 
