@@ -62,7 +62,7 @@ function CardDetails({ match, recipe }) {
 						</div>
 					</div>
 				) : (
-					<div className={styles.cdText}>ERROR 404 not found</div>
+					<div className={styles.cdText}>The recipe you are looking for doesn't exist...</div>
 				)
 			) : (
 				<img
