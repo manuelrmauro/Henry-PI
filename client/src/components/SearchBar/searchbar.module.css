@@ -1,30 +1,30 @@
 .allSearchBar {
 	display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 850px;
+	align-items: center;
+	justify-content: space-around;
+	width: 860px;
 }
 
-.searchBar, .orderBy {
+.searchBar,
+.orderBy {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-
 .orderBy {
 	color: var(--light-icon);
 	font-size: 14px;
-  margin-right: 10px;
+	margin-right: 10px;
 }
 
 .orderInput {
 	border-radius: 5px;
 	border: transparent;
 	height: 28px;
-  margin-left: 5px;
-  width: 48px;
-  cursor: pointer;
+	margin-left: 5px;
+	width: 48px;
+	cursor: pointer;
 }
 
 .searchInput {
@@ -34,13 +34,15 @@
 	border: transparent;
 }
 
-.searchBtn {
+.searchBtn,
+.refreshBtn {
 	color: var(--light-icon);
 	font-size: 36px;
-	background-color:transparent;
+	background-color: transparent;
 	border: transparent;
 	cursor: pointer;
 	padding-top: 8px;
+	padding-right: 2px;
 	transition: 200ms;
 }
 
@@ -48,19 +50,29 @@
 	color: var(--blue-icon-hover);
 }
 
+.refreshBtn {
+	font-size: 33px;
+	padding-bottom: 3px;
+	padding-right: 10px;
+	padding-left: 0px;
+}
+
+.refreshBtn:hover {
+	color: var(--white-icon-hover);
+}
 
 .dietBoxes {
-  display: grid;
-  grid-template-columns: repeat(4, 100px);
-  color: var(--white-icon-hover);
-  font-size: 14px;
+	display: grid;
+	grid-template-columns: repeat(4, 100px);
+	color: var(--white-icon-hover);
+	font-size: 14px;
 }
 
 .dietBox {
-  display: flex;
-  align-items: bottom;
+	display: flex;
+	align-items: bottom;
 }
 
 .dietCheckBox {
-  cursor: pointer;
+	cursor: pointer;
 }

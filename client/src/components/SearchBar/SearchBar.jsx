@@ -4,8 +4,10 @@ import { connect, useDispatch } from 'react-redux';
 import { getRecipes, getDiets } from '../../redux/actions';
 import { useHistory } from 'react-router-dom';
 import { IoSearchCircleSharp } from 'react-icons/io5';
+import { IoMdRefreshCircle } from 'react-icons/io';
 
 function SearchBar({ diets, search, getRecipes }) {
+	//carga las dietas
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getDiets());
@@ -13,23 +15,27 @@ function SearchBar({ diets, search, getRecipes }) {
 
 	const history = useHistory();
 
+	// nombre que se busca
 	const [input, setInput] = useState({
 		name: '',
 	});
 
+	// ordenamiento y dietas que se buscan
 	const [filters, setFilters] = useState({
 		order: '',
 		diets: [],
 	});
 
-	useEffect(()=>{
+	// hace una busqueda automatica cada vez que se modifica DIET o ORDER
+	useEffect(() => {
 		if (filters.diets.length) {
 			getRecipes(input.name, filters.order, filters.diets);
 		} else {
 			getRecipes(input.name, filters.order);
 		}
-	},[filters.order, filters.diets])
+	}, [filters.order, filters.diets]);
 
+	// hace la busqueda por nombre modificando el parametro NAME
 	function handleOnSubmit(e) {
 		e.preventDefault();
 		history.push('/app');
@@ -39,18 +45,18 @@ function SearchBar({ diets, search, getRecipes }) {
 			getRecipes(input.name, filters.order);
 		}
 	}
-	
+
+	// modifica filters.order
 	function handleOrder(e) {
 		history.push('/app');
 		setFilters({ ...filters, order: e.target.value });
-
 	}
 
+	// modifica fiters.diets
 	function handleFilter(e) {
 		history.push('/app');
 		const diets = [...filters.diets];
 		const diet = e.target.name;
-
 		if (!diets.includes(diet)) {
 			diets.push(diet);
 			setFilters({ ...filters, diets });
@@ -61,9 +67,21 @@ function SearchBar({ diets, search, getRecipes }) {
 		}
 	}
 
+	// modifica input.name
 	function handleInputChange(e) {
 		e.preventDefault();
 		setInput({ ...input, [e.target.name]: e.target.value });
+	}
+
+	// vuelve a hacer la busqueda, por si hubo actualizaciones
+	function handleRefresh(e) {
+		history.push('/app');
+		e.preventDefault();
+		if (filters.diets.length) {
+			getRecipes(search, filters.order, filters.diets);
+		} else {
+			getRecipes(search, filters.order);
+		}
 	}
 
 	return (
@@ -87,7 +105,7 @@ function SearchBar({ diets, search, getRecipes }) {
 				<select
 					name="orders"
 					onChange={(e) => handleOrder(e)}
-					value={input.order}
+					value={filters.order}
 					className={styles.orderInput}
 				>
 					<option value="">ALL</option>
@@ -97,7 +115,6 @@ function SearchBar({ diets, search, getRecipes }) {
 					<option value="score">MIN</option>
 				</select>
 			</div>
-
 			<div className={styles.searchBar}>
 				<input
 					onChange={(e) => handleInputChange(e)}
@@ -108,6 +125,9 @@ function SearchBar({ diets, search, getRecipes }) {
 				<button type="submit" className={styles.searchBtn}>
 					<IoSearchCircleSharp />
 				</button>
+				<button onClick={(e) => handleRefresh(e)} className={styles.refreshBtn}>
+					<IoMdRefreshCircle />
+				</button>
 			</div>
 		</form>
 	);
@@ -116,7 +136,7 @@ function SearchBar({ diets, search, getRecipes }) {
 function mapStateToProps(state) {
 	return {
 		diets: state.diets,
-		search: state.search
+		search: state.search,
 	};
 }
 

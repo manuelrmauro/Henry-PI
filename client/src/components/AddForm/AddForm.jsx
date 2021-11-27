@@ -7,7 +7,9 @@ import { BsFillPlusCircleFill } from 'react-icons/bs';
 
 function AddForm({ diets, postId, addRecipe }) {
 	const history = useHistory();
-	const [steps, setSteps] = useState({});
+	const dispatch = useDispatch();
+
+	//guarda todos los inputs
 	const [input, setInput] = useState({
 		title: '',
 		summary: '',
@@ -17,15 +19,21 @@ function AddForm({ diets, postId, addRecipe }) {
 		image: '',
 		diets: [],
 	});
+	// guarda los steps
+	const [steps, setSteps] = useState({});
+	// controla si el sumbit es valido o no para habilitar el boton
 	const [validate, setValidate] = useState({
 		submit: true,
 	});
+	// muestra el gif de success cuando se crea la nueva receta
 	const [success, setSuccess] = useState('none');
-	const dispatch = useDispatch();
+
+	// carga las dietas
 	useEffect(() => {
 		dispatch(getDiets());
 	}, [dispatch]);
 
+	// muestra el gif de success
 	useEffect(() => {
 		if (postId) {
 			setSuccess('flex');
@@ -35,10 +43,12 @@ function AddForm({ diets, postId, addRecipe }) {
 		}
 	}, [postId, history]);
 
+	// si se borran los datos del input de minutos, se restablece en 0
 	useEffect(() => {
 		if (!input.readyInMinutes) setInput({ ...input, readyInMinutes: 0 });
 	}, [input.readyInMinutes]);
 
+	// no deja que title y summary seando solo espacios '   '
 	useEffect(() => {
 		if (input.title)
 			setInput({
@@ -52,6 +62,7 @@ function AddForm({ diets, postId, addRecipe }) {
 			});
 	}, [input.title, input.summary]);
 
+	// controla la valadacion para mostrar los mensajes correspondientes
 	useEffect(() => {
 		function handleValidation() {
 			const error = {
@@ -73,19 +84,19 @@ function AddForm({ diets, postId, addRecipe }) {
 			) {
 				error.image = 'image must be an url';
 			}
-
 			if (Object.keys(error).length > 1) error.submit = true;
-
 			setValidate(error);
 		}
 		handleValidation();
 	}, [input.title, input.summary, input.image]);
 
+	// agrega un nuevo step
 	function handleAddStep(e) {
 		e.preventDefault();
 		setSteps({ ...steps, [Object.keys(steps).length + 1]: '' });
 	}
 
+	// borra el ultimo step
 	function handleRemoveStep(e) {
 		e.preventDefault();
 		const newSteps = { ...steps };
@@ -93,6 +104,7 @@ function AddForm({ diets, postId, addRecipe }) {
 		setSteps(newSteps);
 	}
 
+	// maneja los cambios de todos los inputs
 	function handleInputChange(e) {
 		if (typeof diets.find((diet) => diet.name === e.target.name) === 'object') {
 			if (!input.diets.includes(e.target.name)) {
@@ -117,6 +129,7 @@ function AddForm({ diets, postId, addRecipe }) {
 		console.log(input);
 	}
 
+	// acomoda el title a la primera letra mayuscula y las demas minusculas, y submitea
 	function handleSubmit(e) {
 		function capitalize(string) {
 			return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();

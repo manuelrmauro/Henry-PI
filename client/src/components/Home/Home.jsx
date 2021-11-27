@@ -5,19 +5,21 @@ import CardContainer from '../CardContainer/CardContainer';
 import PageChanger from '../PageChanger/PageChanger';
 import styles from './home.module.css';
 
-function Home({ recipes, search }) {
+function Home({ recipes, search, loadRecipes }) {
 	const dispatch = useDispatch();
+
+	// carga las recipes cuando se inicia la pagina y cuando se hace click en home
 	useEffect(() => {
-		if (!recipes && search === '') {
+		if (loadRecipes) {
 			dispatch(getRecipes());
 		}
-	}, [dispatch]);
+	}, [dispatch, loadRecipes]);
 
 	return (
 		<div className={styles.home}>
 			{search.length ? (
 				<div className={styles.homeText}>Search results of: '{search}'</div>
-			):null}
+			) : null}
 			{recipes ? (
 				recipes.length ? (
 					<div>
@@ -43,6 +45,7 @@ function mapStateToProp(state) {
 	return {
 		recipes: state.paginatedRecipes,
 		search: state.search,
+		loadRecipes: state.loadRecipes,
 	};
 }
 

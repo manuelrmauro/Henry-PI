@@ -48,6 +48,7 @@ filtrado automatico con el click *
 revisar promesas / practicar
 hacer errores y mostrar mensajes 
 modificar condicionales *
+
 repasar redux thunk
 react router dom ( que parametros )
-entender map dispatch
+entender map dispatch / redux

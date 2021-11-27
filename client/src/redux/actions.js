@@ -1,9 +1,11 @@
 export const GET_RECIPES = 'GET_RECIPES';
 export const GET_RECIPE_DETAILS = 'GET_RECIPE_DETAILS';
 export const GET_PAGE = 'GET_PAGE';
-export const _LOADING_PAGES = '_LOADING_PAGES';
+export const EMPTY_PAGE = 'EMPTY_PAGE';
 export const GET_DIETS = 'GET_DIETS';
 export const ADD_RECIPE = 'ADD_RECIPE';
+export const LOAD_RECIPES = 'LOAD_RECIPES'
+export const EMPTY_RECIPE_DATAILS = "EMPTY_RECIPE_DETAILS"
 
 function _filterByDiets(recipe, diets) {
 	let count = 0;
@@ -30,7 +32,7 @@ function _paginate(data, page = 1) {
 
 export const getRecipes = function (name = '', order = '', diets = []) {
 	return function (dispatch) {
-		dispatch({ type: _LOADING_PAGES });
+		dispatch({ type: EMPTY_PAGE });
 		fetch(`http://localhost:3001/recipes?name=${name}&order=${order}`)
 			.then((data) => data.json())
 			.then((data) => {
@@ -58,18 +60,23 @@ export const getRecipes = function (name = '', order = '', diets = []) {
 	};
 };
 
+export const loadRecipes = function () {
+	return {type: LOAD_RECIPES}
+}
+
+export const emptyPage = function () {
+	return { type: EMPTY_PAGE };
+};
+
 export const getPage = function (data, page) {
-	return function (dispatch) {
-		dispatch({ type: _LOADING_PAGES });
-		const { content, pages } = _paginate(data, page);
-		dispatch({
-			type: GET_PAGE,
-			payload: {
-				content,
-				pages,
-				actualPage: page,
-			},
-		});
+	const { content, pages } = _paginate(data, page);
+	return {
+		type: GET_PAGE,
+		payload: {
+			content,
+			pages,
+			actualPage: page,
+		},
 	};
 };
 
@@ -86,6 +93,10 @@ export const getRecipeDetails = function (id) {
 			});
 	};
 };
+
+export const emptyRecipeDetails = function () {
+	return {type: EMPTY_RECIPE_DATAILS}
+}
 
 export const getDiets = function () {
 	return function (dispatch) {
@@ -112,7 +123,6 @@ export const addRecipe = function (recipe) {
 				dispatch({ type: ADD_RECIPE, payload: res.id });
 				dispatch({ type: ADD_RECIPE, payload: null });
 			})
-			.catch((err) => {
-			});
+			.catch((err) => {});
 	};
 };

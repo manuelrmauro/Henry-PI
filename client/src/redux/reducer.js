@@ -2,9 +2,11 @@ import {
 	GET_PAGE,
 	GET_RECIPES,
 	GET_RECIPE_DETAILS,
-	_LOADING_PAGES,
+	EMPTY_PAGE,
 	GET_DIETS,
 	ADD_RECIPE,
+	LOAD_RECIPES,
+	EMPTY_RECIPE_DATAILS,
 } from './actions';
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
 	diets: [],
 	search: '',
 	postId: null,
+	loadRecipes: true,
 };
 
 function rootReducer(state = initialState, { type, payload }) {
@@ -28,6 +31,7 @@ function rootReducer(state = initialState, { type, payload }) {
 				pages: payload.pages,
 				actualPage: payload.actualPage,
 				search: payload.search,
+				loadRecipes: false,
 			};
 		case GET_PAGE:
 			return {
@@ -41,7 +45,7 @@ function rootReducer(state = initialState, { type, payload }) {
 				...state,
 				recipe: payload,
 			};
-		case _LOADING_PAGES:
+		case EMPTY_PAGE:
 			return {
 				...state,
 				paginatedRecipes: null,
@@ -56,6 +60,10 @@ function rootReducer(state = initialState, { type, payload }) {
 				...state,
 				postId: payload,
 			};
+		case LOAD_RECIPES:
+			return { ...state, loadRecipes: true };
+		case EMPTY_RECIPE_DATAILS:
+			return {...state, recipe: null}
 		default:
 			return state;
 	}

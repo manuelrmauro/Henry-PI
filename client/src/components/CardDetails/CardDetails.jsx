@@ -1,14 +1,24 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { getRecipeDetails } from '../../redux/actions';
+import { getRecipeDetails, emptyRecipeDetails } from '../../redux/actions';
 import styles from './carddetails.module.css';
 
 function CardDetails({ match, recipe }) {
 	const id = match.params.id;
 	const dispatch = useDispatch();
+
+	// carga los datos de la receta
 	useEffect(() => {
 		dispatch(getRecipeDetails(id));
 	}, [dispatch, id]);
+
+	// borra los datos guardados, para que no halla 'saltos' de pagina cuando se busque una nueva receta
+	useEffect(
+		() => () => {
+			dispatch(emptyRecipeDetails());
+		},
+		[]
+	);
 
 	return (
 		<div className={styles.loadingContainer}>
