@@ -6,30 +6,31 @@ const { API_KEY } = process.env;
 const router = Router();
 
 router.get('/', async function (req, res) {
-	try {
-		//DATABASE
-		let dbRecipes = await Recipe.findAll({
-			include: [
-				{
-					model: Step,
-				},
-				{
-					model: Diet,
-				},
-			],
-			order: [
-				[Step, 'number', 'ASC'],
-				[Diet, 'id', 'ASC'],
-				['id', 'ASC'],
-			],
-		});
-		// adapta la lista para que encaje con la informacion traida de la api
-		dbRecipes = dbRecipes.map((el) => el.get({ plain: true }));
-		dbRecipes.forEach((recipe) => {
-			adaptQuery(recipe);
-		});
-		// BUSQUEDA POR NAME
-		if (req.query.name) {
+	//DATABASE
+	let dbRecipes = await Recipe.findAll({
+		include: [
+			{
+				model: Step,
+			},
+			{
+				model: Diet,
+			},
+		],
+		order: [
+			[Step, 'number', 'ASC'],
+			[Diet, 'id', 'ASC'],
+			['id', 'ASC'],
+		],
+	});
+	// adapta la lista para que encaje con la informacion traida de la api
+	dbRecipes = dbRecipes.map((el) => el.get({ plain: true }));
+	dbRecipes.forEach((recipe) => {
+		adaptQuery(recipe);
+	});
+
+	// DESCOMENTAR PARA NO USAR LA API EXTERNA
+
+	/* 	if (req.query.name) {
 			dbRecipes = dbRecipes.filter((recipe) =>
 				recipe.title.toLowerCase().includes(req.query.name.toLowerCase())
 			);
@@ -37,7 +38,6 @@ router.get('/', async function (req, res) {
 				return res.json([]);
 			}
 		}
-		// DESCOMENTAR PARA NO  USAR LA API EXTERNA
 		if (req.query.order) {
 			if (req.query.order === 'alpha')
 				dbRecipes = sort(dbRecipes, 'title', 'asc');
@@ -48,8 +48,10 @@ router.get('/', async function (req, res) {
 			if (req.query.order === 'scoreDesc')
 				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'desc');
 		}
-		return res.json(dbRecipes);
-		// EXTERNAL API
+		return res.json(dbRecipes); */
+
+	// EXTERNAL API
+	try {
 		const eaRecipes = await axios.get(
 			`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
 		);
@@ -78,7 +80,7 @@ router.get('/', async function (req, res) {
 
 		res.json(recipes);
 	} catch (error) {
-		res.status(400);
+		res.status(400).json(dbRecipes);
 	}
 });
 
@@ -115,8 +117,8 @@ router.get('/:id', (req, res) => {
 			.get(
 				`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
 			)
-			.then((res) => {
-				recipe = res.data;
+			.then((data) => {
+				recipe = data.data;
 				filteredRecipe = {
 					id,
 					title: recipe.title,

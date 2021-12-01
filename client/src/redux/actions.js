@@ -23,7 +23,7 @@ function _paginate(data, page = 1) {
 	let finalPage = 1;
 	if (page > 1) finalPage = page;
 	let pages = Math.ceil(data.length / finalSize);
-	const content = data.slice(
+	const content = data.slice( 
 		(finalPage - 1) * finalSize,
 		finalSize * finalPage
 	);

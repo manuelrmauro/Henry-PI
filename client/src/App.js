@@ -5,12 +5,15 @@ import Home from './components/Home/Home';
 import Welcome from './components/Welcome/Welcome';
 import AddForm from './components/AddForm/AddForm';
 import CardDetails from './components/CardDetails/CardDetails';
-import ErrorPage from './components/ErrorPage/ErrorPage';
+import ErrorPage from './components/ErrorPage/ErrorPage'; 
 
 function App() {
 	return (
 		<div className="App">
-				<Route path="/app" component={Nav} />
+			<Switch>
+				<Route exact path="/" component={Welcome} />
+				<Route path="/" component={Nav} />
+			</Switch>
 			<Switch>
 				<Route exact path="/" component={Welcome} />
 				<Route exact path="/app" component={Home} />
@@ -20,7 +23,7 @@ function App() {
 					path="/app/recipe/:id"
 					render={(match) => <CardDetails match={match.match} />}
 				/>
-				<Route path='*' component={ErrorPage} />
+				<Route path="*" component={ErrorPage} />
 			</Switch>
 		</div>
 	);

@@ -4,11 +4,11 @@ import { getDiets, addRecipe } from '../../redux/actions';
 import { useHistory } from 'react-router-dom';
 import styles from './addform.module.css';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
+import { FaArrowAltCircleLeft } from 'react-icons/fa';
 
 function AddForm({ diets, postId, addRecipe }) {
 	const history = useHistory();
 	const dispatch = useDispatch();
-
 	//guarda todos los inputs
 	const [input, setInput] = useState({
 		title: '',
@@ -46,7 +46,7 @@ function AddForm({ diets, postId, addRecipe }) {
 	// si se borran los datos del input de minutos, se restablece en 0
 	useEffect(() => {
 		if (!input.readyInMinutes) setInput({ ...input, readyInMinutes: 0 });
-	}, [input.readyInMinutes]);
+	}, [input.readyInMinutes]); // si agrego solo input tira error todo el tiempo
 
 	// no deja que title y summary seando solo espacios '   '
 	useEffect(() => {
@@ -62,9 +62,10 @@ function AddForm({ diets, postId, addRecipe }) {
 			});
 	}, [input.title, input.summary]);
 
-	// controla la valadacion para mostrar los mensajes correspondientes
+
+	// controla la valadacion para habilitar o deshabilitar el submit
 	useEffect(() => {
-		function handleValidation() {
+/* 		function handleValidation() {
 			const error = {
 				submit: false,
 			};
@@ -87,7 +88,12 @@ function AddForm({ diets, postId, addRecipe }) {
 			if (Object.keys(error).length > 1) error.submit = true;
 			setValidate(error);
 		}
-		handleValidation();
+		 handleValidation(); */
+		 if (Object.keys(validate).length <= 1 && input.title && input.summary) {
+			 setValidate({...validate, submit: false})
+		 } else {
+			setValidate({...validate, submit: true})
+		 }
 	}, [input.title, input.summary, input.image]);
 
 	// agrega un nuevo step
@@ -126,7 +132,40 @@ function AddForm({ diets, postId, addRecipe }) {
 		} else {
 			setInput({ ...input, [e.target.name]: e.target.value });
 		}
-		console.log(input);
+		// maneja la validacion 
+		if (e.target.name === 'title') {
+			if (e.target.value.length === 0) {
+				setValidate({ ...validate, title: 'enter a title' });
+			} else if (!/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(e.target.value)) {
+				setValidate({ ...validate, title: 'title can only have letters' });
+			} else {
+				setValidate(removeStateProp(validate, 'title'));
+			}
+		}
+		if (e.target.name === 'summary') {
+			if (e.target.value.length === 0) {
+				setValidate({ ...validate, summary: 'enter a summary' });
+			} else {
+				setValidate(removeStateProp(validate, 'summary'));
+			}
+		}
+		if (e.target.name === 'image') {
+			if (
+				e.target.value.substring(0, 7) !== 'http://' &&
+				e.target.value.substring(0, 8) !== 'https://' &&
+				e.target.value.length
+			) {
+				setValidate({ ...validate, image: 'image must be an url' });
+			} else {
+					setValidate(removeStateProp(validate, 'image'));
+			}
+		}
+	}
+
+	function removeStateProp(prevState, prop) {
+		const state = { ...prevState };
+		delete state[prop];
+		return state;
 	}
 
 	// acomoda el title a la primera letra mayuscula y las demas minusculas, y submitea
@@ -135,6 +174,7 @@ function AddForm({ diets, postId, addRecipe }) {
 			return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 		}
 		e.preventDefault();
+		setValidate({ ...validate, submit: true });
 		const finalSteps = Object.keys(steps).map((step) => steps[step]);
 		const finalObj = { ...input, steps: finalSteps };
 		finalObj.title = capitalize(finalObj.title);
@@ -144,6 +184,9 @@ function AddForm({ diets, postId, addRecipe }) {
 
 	return (
 		<div className={styles.addFormContainer}>
+			<button onClick={() => history.goBack()} className={styles.backBtn}>
+				<FaArrowAltCircleLeft />
+			</button>
 			<div className={styles.created} style={{ display: success }}>
 				<img
 					style={{ display: success }}

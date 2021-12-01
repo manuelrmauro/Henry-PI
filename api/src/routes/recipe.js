@@ -4,7 +4,7 @@ const { Recipe, Step, Diet } = require('../db');
 const router = Router();
 
 router.post('/', async function (req, res) {
-	const {
+	let {
 		title,
 		summary,
 		score,
@@ -16,6 +16,7 @@ router.post('/', async function (req, res) {
 	} = req.body;
 	if (typeof title === 'string' && typeof summary === 'string') {
 		if (/^[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]*$/.test(title)) {
+			title = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()
 			const recipe = await Recipe.create({
 				title,
 				summary,

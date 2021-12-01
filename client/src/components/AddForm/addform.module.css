@@ -129,7 +129,19 @@ background-color:aqua;
   cursor: auto;
 }
 
-.removeStepBtn:hover, .addStepBtn:hover, .afSubmitBtn:hover {
+.backBtn {
+  position: absolute;
+  top: 75px;
+  left: 15px;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  font-size: 26px;
+  color: var(--blue-icon-hover);
+  cursor: pointer;
+}
+
+.removeStepBtn:hover, .addStepBtn:hover, .afSubmitBtn:hover, .backBtn:hover {
   opacity: 0.8;
 }
 
@@ -152,3 +164,4 @@ background-color:aqua;
   transition: 1000ms;
   opacity: 0.95;
 }
+

@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { getRecipeDetails, emptyRecipeDetails } from '../../redux/actions';
 import styles from './carddetails.module.css';
+import { useHistory } from 'react-router-dom';
+import { FaArrowAltCircleLeft} from 'react-icons/fa';
+
 
 function CardDetails({ match, recipe }) {
 	const id = match.params.id;
 	const dispatch = useDispatch();
+	const history = useHistory()
 
 	// carga los datos de la receta
 	useEffect(() => {
@@ -17,11 +21,12 @@ function CardDetails({ match, recipe }) {
 		() => () => {
 			dispatch(emptyRecipeDetails());
 		},
-		[]
+		[dispatch]
 	);
 
 	return (
 		<div className={styles.loadingContainer}>
+			<button onClick={() => history.goBack()} className={styles.backBtn}><FaArrowAltCircleLeft/></button>
 			{recipe ? (
 				Object.keys(recipe).length ? (
 					<div className={styles.cardDetailsContainer}>

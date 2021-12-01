@@ -33,7 +33,7 @@ function SearchBar({ diets, search, getRecipes }) {
 		} else {
 			getRecipes(input.name, filters.order);
 		}
-	}, [filters.order, filters.diets]);
+	}, [filters]); // si agrego input va a estar disparando el efecto muy seguido
 
 	// hace la busqueda por nombre modificando el parametro NAME
 	function handleOnSubmit(e) {

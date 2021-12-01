@@ -44,10 +44,10 @@ const { Recipe, Diet, Step } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-let prevId = 1000000;
+/* let prevId = 1000000;
 Recipe.addHook('afterValidate', (recipe) => {
 	recipe.id = ++prevId;
-});
+}); */
 
 Recipe.hasMany(Step);
 Step.belongsTo(Recipe);
