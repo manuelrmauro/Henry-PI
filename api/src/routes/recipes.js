@@ -87,7 +87,7 @@ router.get('/', async function (req, res) {
 router.get('/:id', (req, res) => {
 	const { id } = req.params;
 	let recipe;
-	if (id >= 1000000) {
+	if (isNaN(id)) {
 		// DATABASE
 		Recipe.findByPk(id, {
 			include: [

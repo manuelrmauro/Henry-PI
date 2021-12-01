@@ -21,36 +21,54 @@ const server = require('./src/app.js');
 const { conn, Diet } = require('./src/db.js');
 
 // Syncing all the models at once.
-conn.sync( { force: false }  ).then(() => {
-	server.listen(3001, () => {
-		console.log('%s listening at 3001');
-
-		Diet.sync( {force: true }).then(() => {
-			Diet.create({
+conn
+	.sync({ force: false })
+	.then(() => {
+		server.listen(3001, () => {
+			console.log('server listening at 3001');
+			// eslint-disable-line no-console
+		});
+	})
+	.then(() => {
+		Diet.findOrCreate({
+			where: {
 				name: 'gluten free',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'dairy free',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'paleolithic',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'vegetarian',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'primal',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'vegan',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'pescetarian',
-			});
-			Diet.create({
+			},
+		});
+		Diet.findOrCreate({
+			where: {
 				name: 'frutarian',
-			});
-		}).then(() => console.log('Diets precargadas.'))
-		// eslint-disable-line no-console
-	});
-}); 
+			},
+		});
+	})
+	.then(() => console.log('Diets precargadas.'));
