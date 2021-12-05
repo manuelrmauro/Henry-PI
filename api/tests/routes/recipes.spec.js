@@ -96,16 +96,16 @@ describe('Recipes routes', () => {
 				));
 	});
 	describe('GET recipes/:id', () => {
-		xit('deberia tirar error 404 si no encuentra receta por id', () =>
+		it('deberia tirar error 404 si no encuentra receta por id', () =>
 			agent.get('/recipes/1000000000').expect(404));
-		xit('deberia devuelve un objeto vacio si no encuentra recetea por id', () =>
+		it('deberia devuelve un objeto vacio si no encuentra recetea por id', () =>
 			agent
 				.get('/recipes/1000000000')
 				.then((res) => expect(res.body).to.deep.equal({})));
-		xit('deberia buscar una receta por id por params', () =>
+		it('deberia buscar una receta por id por params', () =>
 			agent
-				.get('/recipes/1000038')
-				.then((res) => expect(res.body).to.be.equal('Hamburgesa completa')));
+				.get('/recipes/?name=hamburgesa')
+				.then((res) => agent.get('/recipes/' + res.body[0].id))
+				.then((res) => expect(res.body.title).to.be.equal('Hamburgesa completa')));
 	});
-
 });

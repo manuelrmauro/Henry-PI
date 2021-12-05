@@ -14,6 +14,7 @@ router.post('/', async function (req, res) {
 		steps,
 		diets,
 	} = req.body;
+	// verifica que title y summary existan
 	if (typeof title === 'string' && typeof summary === 'string') {
 		if (/^[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]*$/.test(title)) {
 			title = title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()
@@ -25,6 +26,7 @@ router.post('/', async function (req, res) {
 				readyInMinutes,
 				image,
 			});
+			// si tiene steps se los agrega
 			if (Array.isArray(steps)) {
 				let number = 1;
 				steps.forEach(async (value) => {
@@ -35,6 +37,7 @@ router.post('/', async function (req, res) {
 					await step.setRecipe(recipe);
 				});
 			}
+			// 
 			if (Array.isArray(diets)) {
 				const finalDiets = await Diet.findAll({
           raw: true,

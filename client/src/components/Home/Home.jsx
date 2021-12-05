@@ -24,7 +24,7 @@ function Home({ recipes, search, loadRecipes }) {
 				recipes.length ? (
 					<div>
 						<PageChanger />
-						<CardContainer />
+						<CardContainer/>
 						<PageChanger />
 					</div>
 				) : (

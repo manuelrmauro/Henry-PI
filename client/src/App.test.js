@@ -1,13 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import {BrowserRouter} from 'react-router-dom'
 
-test('renders title "[Recipes App]."', () => {
-  render(<App />);
-  const titleElement = screen.getByText('[Recipes App].')
-  expect(titleElement).toBeInTheDocument();
+test('renders link to App', () => {
+  render(<BrowserRouter><App/></BrowserRouter>);
+  const linkElement = screen.getByText('Enter')
+  expect(linkElement).toBeInTheDocument();
 });
 
-test('', () => {
-  render(<Nav />)
-
-})

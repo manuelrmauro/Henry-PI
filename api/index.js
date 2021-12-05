@@ -22,13 +22,14 @@ const { conn, Diet } = require('./src/db.js');
 
 // Syncing all the models at once.
 conn
-	.sync({ force: false })
+	.sync({ force: true }) // cambiar a FALSE para que los datos sigan guardados, pero NO correr los test de RUTAS!!
 	.then(() => {
 		server.listen(3001, () => {
 			console.log('server listening at 3001');
 			// eslint-disable-line no-console
 		});
 	})
+	// precarga las diets
 	.then(() => {
 		Diet.findOrCreate({
 			where: {

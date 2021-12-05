@@ -48,6 +48,15 @@ function AddForm({ diets, postId, addRecipe }) {
 		if (!input.readyInMinutes) setInput({ ...input, readyInMinutes: 0 });
 	}, [input.readyInMinutes]); // si agrego solo input tira error todo el tiempo
 
+	// controla la valadacion para habilitar o deshabilitar el submit
+	useEffect(() => {
+		if (Object.keys(validate).length <= 1 && input.title && input.summary) {
+			setValidate({...validate, submit: false})
+		} else {
+		 setValidate({...validate, submit: true})
+		}
+ }, [input.title, input.summary, input.image]); // si agrego validate tira error todo el tiempo
+
 	// no deja que title y summary seando solo espacios '   '
 	useEffect(() => {
 		if (input.title)
@@ -60,41 +69,7 @@ function AddForm({ diets, postId, addRecipe }) {
 				...input,
 				summary: input.summary.trimStart(),
 			});
-	}, [input.title, input.summary]);
-
-
-	// controla la valadacion para habilitar o deshabilitar el submit
-	useEffect(() => {
-/* 		function handleValidation() {
-			const error = {
-				submit: false,
-			};
-			if (input.title.length === 0) {
-				error.title = 'enter a title';
-			}
-			if (!/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(input.title)) {
-				error.title = 'title can only have letters';
-			}
-			if (input.summary.length === 0) {
-				error.summary = 'enter a summary';
-			}
-			if (
-				input.image.substring(0, 7) !== 'http://' &&
-				input.image.substring(0, 8) !== 'https://' &&
-				input.image.length
-			) {
-				error.image = 'image must be an url';
-			}
-			if (Object.keys(error).length > 1) error.submit = true;
-			setValidate(error);
-		}
-		 handleValidation(); */
-		 if (Object.keys(validate).length <= 1 && input.title && input.summary) {
-			 setValidate({...validate, submit: false})
-		 } else {
-			setValidate({...validate, submit: true})
-		 }
-	}, [input.title, input.summary, input.image]);
+	}, [input.title, input.summary]); // si agrego solo input, o validate, tira error todo el tiempo
 
 	// agrega un nuevo step
 	function handleAddStep(e) {
@@ -134,7 +109,7 @@ function AddForm({ diets, postId, addRecipe }) {
 		}
 		// maneja la validacion 
 		if (e.target.name === 'title') {
-			if (e.target.value.length === 0) {
+			if (e.target.value.length === 0 || e.target.value.trim() === '') {
 				setValidate({ ...validate, title: 'enter a title' });
 			} else if (!/^[a-zA-Z áéíóúÁÉÍÓÚñÑ\s]*$/.test(e.target.value)) {
 				setValidate({ ...validate, title: 'title can only have letters' });
@@ -143,7 +118,7 @@ function AddForm({ diets, postId, addRecipe }) {
 			}
 		}
 		if (e.target.name === 'summary') {
-			if (e.target.value.length === 0) {
+			if (e.target.value.length === 0 || e.target.value.trim() === '') {
 				setValidate({ ...validate, summary: 'enter a summary' });
 			} else {
 				setValidate(removeStateProp(validate, 'summary'));

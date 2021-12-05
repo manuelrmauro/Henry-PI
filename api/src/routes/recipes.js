@@ -28,60 +28,44 @@ router.get('/', async function (req, res) {
 		adaptQuery(recipe);
 	});
 
-	// DESCOMENTAR PARA NO USAR LA API EXTERNA
-
-	/* 	if (req.query.name) {
-			dbRecipes = dbRecipes.filter((recipe) =>
-				recipe.title.toLowerCase().includes(req.query.name.toLowerCase())
-			);
-			if (!dbRecipes.length) {
-				return res.json([]);
-			}
-		}
-		if (req.query.order) {
-			if (req.query.order === 'alpha')
-				dbRecipes = sort(dbRecipes, 'title', 'asc');
-			if (req.query.order === 'alphaDesc')
-				dbRecipes = sort(dbRecipes, 'title', 'desc');
-			if (req.query.order === 'score')
-				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'asc');
-			if (req.query.order === 'scoreDesc')
-				dbRecipes = sort(dbRecipes, 'spoonacularScore', 'desc');
-		}
-		return res.json(dbRecipes); */
+	let recipes = dbRecipes;
 
 	// EXTERNAL API
-	try {
+	// COMENTAR PARA NO USAR LA API EXTERNA
+ 	try {
 		const eaRecipes = await axios.get(
 			`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`
 		);
-
-		// AMBAS LISTAS UNIFICADAS
-		let recipes = [...dbRecipes, ...eaRecipes.data.results];
-		// BUSQUEDA POR NAME
-		if (req.query.name) {
-			recipes = recipes.filter((recipe) =>
-				recipe.title.toLowerCase().includes(req.query.name.toLowerCase())
-			);
-			if (!recipes.length) {
-				return res.json([]);
-			}
-		}
-		// ORDENAR ALFABETICAMENTE O POR SCORE
-		if (req.query.order) {
-			if (req.query.order === 'alpha') recipes = sort(recipes, 'title', 'asc');
-			if (req.query.order === 'alphaDesc')
-				recipes = sort(recipes, 'title', 'desc');
-			if (req.query.order === 'score')
-				recipes = sort(recipes, 'spoonacularScore', 'asc');
-			if (req.query.order === 'scoreDesc')
-				recipes = sort(recipes, 'spoonacularScore', 'desc');
-		}
-
-		res.json(recipes);
+		// UNIFICA AMBAS LISTAS
+		recipes = [...dbRecipes, ...eaRecipes.data.results];
 	} catch (error) {
-		res.status(400).json(dbRecipes);
+		console.log('EXTERNAL API FAILED.')
+	} 
+
+	// BUSQUEDA POR NAME
+	if (req.query.name) {
+		recipes = recipes.filter((recipe) =>
+			recipe.title.toLowerCase().includes(req.query.name.toLowerCase())
+		);
+		if (!recipes.length) {
+			return res.json([]);
+		}
 	}
+	// ORDENAR ALFABETICAMENTE O POR SCORE
+	if (req.query.order) {
+		if (req.query.order === 'alpha') recipes = sort(recipes, 'title', 'asc');
+		if (req.query.order === 'alphaDesc')
+			recipes = sort(recipes, 'title', 'desc');
+		if (req.query.order === 'score')
+			recipes = sort(recipes, 'spoonacularScore', 'asc');
+		if (req.query.order === 'scoreDesc')
+			recipes = sort(recipes, 'spoonacularScore', 'desc');
+	}
+
+	if (!recipes.length) {
+		return res.status(404).json(recipes);
+	}
+	res.json(recipes);
 });
 
 router.get('/:id', (req, res) => {
@@ -119,6 +103,7 @@ router.get('/:id', (req, res) => {
 			)
 			.then((data) => {
 				recipe = data.data;
+				// trae son la data necesaria
 				filteredRecipe = {
 					id,
 					title: recipe.title,

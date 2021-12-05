@@ -10,12 +10,12 @@ import ErrorPage from './components/ErrorPage/ErrorPage';
 function App() {
 	return (
 		<div className="App">
+			{/* renderiza welcome page o nav en todas las paginas */}
 			<Switch>
 				<Route exact path="/" component={Welcome} />
 				<Route path="/" component={Nav} />
 			</Switch>
 			<Switch>
-				<Route exact path="/" component={Welcome} />
 				<Route exact path="/app" component={Home} />
 				<Route exact path="/app/add" component={AddForm} />
 				<Route
