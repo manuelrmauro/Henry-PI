@@ -15,6 +15,19 @@ function PageChanger({ page, pages, allRecipes, getPage }) {
 		getPage(allRecipes, ++page);
 	}
 
+	function handleChangePage(e) {
+		e.preventDefault();
+		getPage(allRecipes, e.target.name);
+	}
+
+	function getAllPages(num) {
+		const pages = [];
+		for (let i = 0; i < num; i++) {
+			pages.push(i + 1);
+		}
+		return pages;
+	}
+
 	return (
 		<div className={styles.pageChanger}>
 			{pages > 1 && (
@@ -31,7 +44,33 @@ function PageChanger({ page, pages, allRecipes, getPage }) {
 							<FaArrowAltCircleLeft />
 						</button>
 					)}
-					{page}/{pages}
+					{getAllPages(pages)
+						.slice(0, page - 1)
+						.map((num) => (
+							<button
+								key={num}
+								onClick={(e) => handleChangePage(e)}
+								className={styles.pageBtn}
+								name={num}
+							>
+								{num}
+							</button>
+						))}
+					<button disabled={true} className={styles.actualPageBtn}>
+						{page}
+					</button>
+					{getAllPages(pages)
+						.slice(page)
+						.map((num) => (
+							<button
+								key={num}
+								onClick={(e) => handleChangePage(e)}
+								className={styles.pageBtn}
+								name={num}
+							>
+								{num}
+							</button>
+						))}
 					{page < pages ? (
 						<button
 							onClick={(e) => handleNextPage(e)}
