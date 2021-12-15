@@ -18,6 +18,7 @@ function AddForm({ diets, postId, addRecipe }) {
 		readyInMinutes: 0,
 		image: '',
 		diets: [],
+		origin: ''
 	});
 	// guarda los steps
 	const [steps, setSteps] = useState({});
@@ -296,6 +297,13 @@ function AddForm({ diets, postId, addRecipe }) {
 				<label className={styles.afError}>
 					{'image' in validate && validate.image}
 				</label>
+				<input
+					className={styles.afImageInput}
+					type="text"
+					name="origin"
+					onChange={(e) => handleInputChange(e)}
+					value={input.origin}
+				/>
 				<div className={styles.afSubmit}>
 					<input
 						className={styles.afSubmitBtn}

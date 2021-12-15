@@ -60,7 +60,10 @@ router.get('/', async function (req, res) {
 			recipes = sort(recipes, 'spoonacularScore', 'asc');
 		if (req.query.order === 'scoreDesc')
 			recipes = sort(recipes, 'spoonacularScore', 'desc');
+		if (req.query.order === 'time')
+		  recipes = sort(recipes, 'readyInMinutes')
 	}
+
 
 	if (!recipes.length) {
 		return res.status(404).json(recipes);

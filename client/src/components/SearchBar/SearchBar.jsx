@@ -113,6 +113,7 @@ function SearchBar({ diets, search, getRecipes }) {
 					<option value="alphaDesc">Z-A</option>
 					<option value="scoreDesc">MAX</option>
 					<option value="score">MIN</option>
+					<option value="time">TIME</option>
 				</select>
 			</div>
 			<div className={styles.searchBar}>

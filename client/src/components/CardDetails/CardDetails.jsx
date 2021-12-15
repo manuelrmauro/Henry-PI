@@ -52,6 +52,9 @@ function CardDetails({ match, recipe }) {
 							<div className={styles.cdHealthScore}>
 								Health Score: <b>{recipe.healthScore}</b>
 							</div>
+							<div className={styles.cdHealthScore}>
+								Origin: <b>{recipe.origin}</b>
+							</div>
 							<div
 								className={styles.cdSummary}
 								dangerouslySetInnerHTML={{ __html: recipe.summary }}

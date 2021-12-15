@@ -13,6 +13,7 @@ router.post('/', async function (req, res) {
 		image,
 		steps,
 		diets,
+		origin
 	} = req.body;
 	// verifica que title y summary existan
 	if (typeof title === 'string' && typeof summary === 'string') {
@@ -25,6 +26,7 @@ router.post('/', async function (req, res) {
 				healthScore,
 				readyInMinutes,
 				image,
+				origin
 			});
 			// si tiene steps se los agrega
 			if (Array.isArray(steps)) {
