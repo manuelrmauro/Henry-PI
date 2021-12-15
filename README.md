@@ -17,7 +17,9 @@ Also you can create new recipes.
 
 <ol>
     <li>Clone or download the repository</li>
-    <li>Open a terminal in '/api' and run 'npm start'</li>
-    <li>Open another terminal in '/client' and run 'npm start'</li>
+    <li>Open a terminal in '/api' and run 'npm install'</li>
+    <li>Then run 'npm start'</li>
+    <li>Open another terminal in '/client' and run 'npm install'</li>
+    <li>Then run 'npm start'</li>
     <li>Enjoy it! 😁</li>
 </ol>
