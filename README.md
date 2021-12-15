@@ -19,5 +19,5 @@ Also you can create new recipes.
     <li>Clone or download the repository</li>
     <li>Open a terminal in '/api' and run 'npm start'</li>
     <li>Open another terminal in '/client' and run 'npm start'</li>
-    <li>Enjoy</li>
+    <li>Enjoy it! 😁</li>
 </ol>
