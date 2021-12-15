@@ -18,11 +18,58 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const { conn, Diet } = require('./src/db.js');
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
-  });
-});
+conn
+	.sync({ force: true }) // cambiar a FALSE para que los datos sigan guardados, pero NO correr los test de RUTAS!!
+	.then(() => {
+		server.listen(3001, () => {
+			console.log('server listening at 3001');
+			// eslint-disable-line no-console
+		});
+	})
+	// precarga las diets
+	.then(() => {
+		Diet.findOrCreate({
+			where: {
+				name: 'gluten free',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'dairy free',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'paleolithic',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'vegetarian',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'primal',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'vegan',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'pescetarian',
+			},
+		});
+		Diet.findOrCreate({
+			where: {
+				name: 'frutarian',
+			},
+		});
+	})
+	.then(() => console.log('Diets precargadas.'));

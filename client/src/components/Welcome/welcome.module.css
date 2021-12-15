@@ -1,0 +1,62 @@
+.backgroundContainer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.invisible {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	z-index: 1;
+}
+
+.background {
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	z-index: 0;
+	user-select: none;
+}
+
+.title,
+.link {
+	font-family: 'Libre Baskerville', serif;
+	z-index: 2;
+}
+
+.title {
+	font-size: 100px;
+}
+
+.link {
+  font-size: 20px;
+  margin-top: 40px;
+  text-align: center;
+  text-decoration: none;
+  color:black;
+  border: 1px solid var(--white-icon-hover);
+  width: 100px;
+  align-self: center;
+  transition: 200ms;
+}
+
+.link:hover {
+  background-color: var(--white-icon-hover);
+}
+
+.textContainer{
+  margin-top: 60px;
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome {
+  position: absolute;
+  top: 0;
+  background-color: rgb(242, 242, 242);
+  width: 100vw;
+  height: 100vh;
+}

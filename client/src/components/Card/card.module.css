@@ -1,0 +1,57 @@
+.card {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+	border: solid 1px var(--white-icon-hover);
+  align-items: center;
+	text-align: center;
+  color:inherit;
+  text-decoration:none;
+  width: 30vw;
+  transition: 300ms;
+  max-width: 350px;
+}
+
+.card:hover{
+  background-color: var(--white-icon-hover);
+}
+
+.cardScore {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.cardTitle{
+  margin-top: 10px;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.cardImageContainer {
+  background-image: url(https://www.ajidesign.net/wp-content/uploads/linea-vechio-ajidise%C3%B1o.jpg);
+  background-position: center;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	width: 26vw;
+	height: 26vw;
+  overflow: hidden;
+  border-radius: 50%;
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.cardImage {
+	height: 30vw;
+  max-height: 330px;
+}
+
+.cardDiets {
+  width: 20vw;
+  margin-top: 10px;
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  margin-bottom: 10px;
+}

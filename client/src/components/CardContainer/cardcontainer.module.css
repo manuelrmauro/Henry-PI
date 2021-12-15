@@ -1,0 +1,5 @@
+.cardContainer {
+	display: inline-grid;
+	grid-template-columns: repeat(3, 26vw);
+	justify-items: center;
+}
