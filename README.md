@@ -25,6 +25,6 @@ Also you can create new recipes.
 </ol>
 
 
-WP: https://walink.co/5f35c0
-LinkedIn: https://www.linkedin.com/in/manuelmaurodev
-Email: manuelrmauro@gmail.com
+<p>WP: https://walink.co/5f35c0</p>
+<p>LinkedIn: https://www.linkedin.com/in/manuelmaurodev</p>
+<p>Email: manuelrmauro@gmail.com</p>
