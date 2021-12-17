@@ -31,6 +31,7 @@
 .cardImageContainer {
   background-image: url(https://www.ajidesign.net/wp-content/uploads/linea-vechio-ajidise%C3%B1o.jpg);
   background-position: center;
+  background-size: 20vw;
   margin-top: 10px;
   display: flex;
   justify-content: center;
