@@ -23,3 +23,9 @@ Also you can create new recipes.
     <li>Then run 'npm start'</li>
     <li>Enjoy it! 😁</li>
 </ol>
+
+### Contact
+
+<p>WP: https://walink.co/5f35c0</p>
+<p>LinkedIn: https://www.linkedin.com/in/manuelmaurodev</p>
+<p>Email: manuelrmauro@gmail.com</p>
