@@ -15,7 +15,7 @@ Also you can create new recipes.
 
 ### How to open
 
-*First you need to connect the database with your postgres, and get and apikey in https://spoonacular.com/food-api, or you can use this apikey "de640b59de324223afa040ca7fe90dad"*
+*You will need to connect the database with your postgres, and get and apikey in https://spoonacular.com/food-api, or you can use this apikey "de640b59de324223afa040ca7fe90dad"*
 
 <ol>
     <li>Clone or download the repository</li>
